@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2019-09-13 Fri 23:09 -->
+<!-- 2019-09-14 Sat 00:35 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>&lrm;</title>
@@ -265,13 +265,13 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<div id="outline-container-org5626625" class="outline-2">
-<h2 id="org5626625">Piirtäminen</h2>
-<div class="outline-text-2" id="text-org5626625">
+<div id="outline-container-orgf366814" class="outline-2">
+<h2 id="orgf366814">Piirtäminen</h2>
+<div class="outline-text-2" id="text-orgf366814">
 </div>
-<div id="outline-container-orgefdd2dd" class="outline-3">
-<h3 id="orgefdd2dd">Piirtoikkunan pisteen koordinaatit</h3>
-<div class="outline-text-3" id="text-orgefdd2dd">
+<div id="outline-container-org7a3d70a" class="outline-3">
+<h3 id="org7a3d70a">Piirtoikkunan pisteen koordinaatit</h3>
+<div class="outline-text-3" id="text-org7a3d70a">
 <p>
 p5.js-ohjelmissa piirretään kuvioita ja animaatioita
 piirtoikkunaan, jota kielessä kutsutaan nimella <i>canvas</i>.
@@ -295,8 +295,8 @@ kaikkien ikkunan kulmapisteiden koordinaatit sekä pisteiden \((70,
 
 
 <div class="org-src-container">
-<pre class="src src-asymptote" id="org166c736">usepackage ("inputenc", "utf8");
-defaultpen (fontsize (14));
+<pre class="src src-asymptote" id="org4fd882f">usepackage ("inputenc", "utf8");
+defaultpen (fontsize (15));
 int LEVEYS = 600;
 int KORKEUS = 400;
 size (LEVEYS, KORKEUS);
@@ -334,7 +334,7 @@ Seuraava ohjelmakoodi luo piirtoikkunan.
 </p>
 <div class="org-src-container">
 <pre class="src src-processing">function setup() {
-    createCanvas(600, 400);
+    createCanvas (600, 400);
 }
 </pre>
 </div>
@@ -365,7 +365,7 @@ väriltään harmaa, ja piirretyssä valkoisessa suorakulmiossa on
 musta reunus.
 </p>
 <div class="org-src-container">
-<pre class="src src-processing" id="org0e7a0fe">function setup() {
+<pre class="src src-processing" id="org5327728">function setup() {
   size(600, 400);
   rect(70, 40, 150, 90);
 }
@@ -395,9 +395,9 @@ kappaleessa <a href="sisakkaiset-silmukat.html">sisäkkäiset silmukat</a>.
 </p>
 </div>
 </div>
-<div id="outline-container-org539e295" class="outline-3">
-<h3 id="org539e295">Ohjelmakoodin muoto</h3>
-<div class="outline-text-3" id="text-org539e295">
+<div id="outline-container-org32807fb" class="outline-3">
+<h3 id="org32807fb">Ohjelmakoodin muoto</h3>
+<div class="outline-text-3" id="text-org32807fb">
 <p>
 Tietokoneohjelma koostuu tyypillisesti <i>ohjelmariveistä</i>.
 p5.js-ohjelma on
@@ -445,9 +445,9 @@ suorittaa ohjelman.
 </p>
 </div>
 </div>
-<div id="outline-container-orgd265951" class="outline-3">
-<h3 id="orgd265951">Muita kuvioita</h3>
-<div class="outline-text-3" id="text-orgd265951">
+<div id="outline-container-org2a52485" class="outline-3">
+<h3 id="org2a52485">Muita kuvioita</h3>
+<div class="outline-text-3" id="text-org2a52485">
 <p>
 Suorakulmion piirtämiseen käytetään yllä <i>funktiota</i>
 <code>rect()</code>. Funktioiden nimiin viitataan usein laittamalla sulut
@@ -515,9 +515,9 @@ function draw() {
 </div>
 </div>
 </div>
-<div id="outline-container-orge0754cc" class="outline-3">
-<h3 id="orge0754cc">Kuvion suunnitteleminen</h3>
-<div class="outline-text-3" id="text-orge0754cc">
+<div id="outline-container-orgb776700" class="outline-3">
+<h3 id="orgb776700">Kuvion suunnitteleminen</h3>
+<div class="outline-text-3" id="text-orgb776700">
 <p>
 Kuvioiden kärkipisteiden koordinaatit kannattaa usein suunnitella
 kynällä ja paperilla ennen kuvan piirtämistä
@@ -561,7 +561,7 @@ joten \(G(200, 50).\)</li>
 
 <div class="org-src-container">
 <pre class="src src-asymptote">usepackage ("inputenc", "utf8");
-defaultpen (fontsize (14));
+defaultpen (fontsize (15));
 int LEVEYS = 600;
 int KORKEUS = 400;
 size (LEVEYS, KORKEUS);
@@ -595,9 +595,9 @@ for (int i = 0; i &lt; points.length; ++i)
 </div>
 </div>
 
-<div id="outline-container-orgf5f0b6e" class="outline-3">
-<h3 id="orgf5f0b6e">Tehtävät</h3>
-<div class="outline-text-3" id="text-orgf5f0b6e">
+<div id="outline-container-org72cf4c0" class="outline-3">
+<h3 id="org72cf4c0">Tehtävät</h3>
+<div class="outline-text-3" id="text-org72cf4c0">
 <ol class="org-ol">
 <li>Piirrä \(800\times 600\)-kokoiseen piirtoikkunaan
 a) nelikulmio, jonka vasen yläkulma on pisteessä \((160, 90)\) ja
@@ -611,7 +611,7 @@ c) nelikulmio, jonka kärkipisteet ovat vastapäivään kiertäen
 a)</li>
 </ol>
 <div class="org-src-container">
-<pre class="src src-processing" id="orge0d81f2">size (200, 200);
+<pre class="src src-processing" id="org76d1cd5">size (200, 200);
 triangle (0, 100, 0, 200, 200, 0);
 </pre>
 </div>
@@ -619,7 +619,7 @@ triangle (0, 100, 0, 200, 200, 0);
 b)
 </p>
 <div class="org-src-container">
-<pre class="src src-processing" id="org8fea931">size (200, 200);
+<pre class="src src-processing" id="org0b38a69">size (200, 200);
 quad (0, 0, 200, 200, 200, 100, 100, 0);
 triangle (0, 100, 0, 200, 100, 200);
 </pre>
@@ -628,7 +628,7 @@ triangle (0, 100, 0, 200, 100, 200);
 c)
 </p>
 <div class="org-src-container">
-<pre class="src src-processing" id="org59841a0">size (200, 200);
+<pre class="src src-processing" id="org150a32c">size (200, 200);
 quad (0, 100, 100, 200, 200, 100, 100, 0);
 rect (50, 50, 100, 100);
 </pre>
@@ -643,7 +643,7 @@ a) Suorakulmio on piirtoikkunan keskellä, ja suorakulmion leveys
    ja korkeus ovat puolet piirtoikkunan vastaavista mitoista.</li>
 </ol>
 <div class="org-src-container">
-<pre class="src src-processing" id="orgffc1b5a">size (300, 200);
+<pre class="src src-processing" id="org673c29a">size (300, 200);
 rect (75, 50, 150, 100);
 </pre>
 </div>
@@ -653,7 +653,7 @@ b) Ulomman suunnikkaan kaksi kärkipistettä jakavat piirtoikkunan
    kärkipisteet ovat ulomman suunnikkaan sivujen keskipisteitä.
 </p>
 <div class="org-src-container">
-<pre class="src src-processing" id="orgf6ea160">size (300, 200);
+<pre class="src src-processing" id="org631758f">size (300, 200);
 quad (100, 0, 300, 100, 200, 200, 0, 100);
 quad (50, 50, 200, 50, 250, 150, 100, 150);
 </pre>
@@ -681,21 +681,14 @@ kokonaisluvuiksi.</li>
 </ol>
 </div>
 </div>
-<div id="outline-container-orga675b04" class="outline-3">
-<h3 id="orga675b04">Ratkaisuja</h3>
-<div class="outline-text-3" id="text-orga675b04">
+<div id="outline-container-orge398de9" class="outline-3">
+<h3 id="orge398de9">Ratkaisuja</h3>
+<div class="outline-text-3" id="text-orge398de9">
 <p>
 Saman asian tekevä tietokoneohjelma voidaan kirjoittaa monella eri
 tavalla. Nämä ratkaisut ovat vain esimerkkejä.
 </p>
 <ol class="org-ol">
-<li><div class="org-src-container">
-<pre class="src src-processing">size (800, 600);
-rect (160, 90, 200, 300);
-triangle (110, 500, 370, 420, 480, 570);
-quad (730, 50, 450, 370, 770, 530, 610, 250);
-</pre>
-</div></li>
 <li>a)</li>
 </ol>
 <div class="org-src-container">
@@ -781,7 +774,7 @@ triangle (90, 202, 210, 202, 150, 98);
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Reima</p>
-<p class="date">Created: 2019-09-13 Fri 23:09</p>
+<p class="date">Created: 2019-09-14 Sat 00:35</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
