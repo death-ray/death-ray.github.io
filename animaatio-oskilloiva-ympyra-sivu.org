@@ -1,0 +1,7 @@
+#+INCLUDE: ohjelmointi-animaatiosivun-yhteiset-asetukset.org
+
+#+BEGIN_SRC processing :noweb yes
+<<animaatio-oskilloiva-ympyra>>
+#+END_SRC
+
+#+INCLUDE: animaatio-oskilloiva-ympyra.org

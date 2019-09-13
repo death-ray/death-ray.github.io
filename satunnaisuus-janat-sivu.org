@@ -1,0 +1,7 @@
+#+INCLUDE: ohjelmointi-animaatiosivun-yhteiset-asetukset.org
+
+#+BEGIN_SRC processing :noweb yes
+<<satunnaisuus-janat>>
+#+END_SRC
+
+#+INCLUDE: satunnaisuus-janat.org

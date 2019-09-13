@@ -1,0 +1,7 @@
+#+INCLUDE: ohjelmointi-animaatiosivun-yhteiset-asetukset.org
+
+#+BEGIN_SRC processing :noweb yes
+<<loogiset-lausekkeet-muuttujat-ympyra>>
+#+END_SRC
+
+#+INCLUDE: loogiset-lausekkeet-muuttujat-ympyra.org

@@ -1,0 +1,7 @@
+#+INCLUDE: ohjelmointi-animaatiosivun-yhteiset-asetukset.org
+
+#+BEGIN_SRC processing :noweb yes
+<<animaatio-liikennevalo-generaattori("floor(%s)")>>
+#+END_SRC
+
+#+INCLUDE: animaatio-liikennevalo.org

@@ -1,0 +1,20 @@
+<header>
+  <h1 class="title">
+    <a href="index.html">Ohjelmointi</a>
+  </h1>
+  <div class="byline">
+    <address class="author">
+      &copy;
+      <a class="authorlink" rel="author"
+         href="http://www.syk.fi/~jhurri/">
+        Jarmo Hurri
+      </a>
+    </address>
+    <br>
+    <a rel="license" class="license"
+       href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+      <img alt="Creative Commons -lisenssi" style="border-width:0"
+           src="https://licensebuttons.net/l/by-nc-sa/3.0/88x31.png">
+    </a>
+  </div>
+</header>

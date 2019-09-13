@@ -1,0 +1,31 @@
+#+NAME: hiiren-painallukset-ympyran-ohjaus
+#+BEGIN_SRC processing :exports none
+  float ympyraX; // ympyrän keskipisteen x-koordinaatti
+  int muutos; // keskipisteen x-koordinaatin muutos
+
+  void setup ()
+  {
+    size (400, 400);
+    colorMode (HSB, 100);
+    ympyraX = width / 2.0; // alussa ympyrä kuvan keskellä
+    muutos = 0; // alussa ympyrää ei siirretä mihinkään
+    frameRate (30);
+  }
+
+  void draw ()
+  {
+    background (0);
+    final int HALKAISIJA = 20;
+    ellipse (ympyraX, height / 2.0, HALKAISIJA, HALKAISIJA); // piirretään ympyrä
+    ympyraX = ympyraX + muutos; // siirretään ympyrää
+  }
+
+  void mousePressed ()
+  {
+    // testataan onko hiiren kursori ympyrän keskipisteestä oikealle
+    if (mouseX > ympyraX)
+      muutos = 1; // on, siirretään oikealle
+    else
+      muutos = -1; // ei, siirretään vasemmalle
+  }
+#+END_SRC

@@ -1,0 +1,168 @@
+body
+{
+    margin: 0;
+    background-color: #E8EFF3;
+    font-family: "Helvetica Neue",Helvetica, sans-serif;
+    text-align: justify;
+}
+
+ol li ol
+{
+    list-style-type: lower-alpha;
+}
+
+li
+{
+    margin-top: 30px;
+}
+
+li li
+{
+    margin-top: 2px;
+}
+
+
+li:first-child
+{
+    margin-top: 0;
+}
+
+canvas
+{
+    display: block;
+    margin: 0 auto;
+    margin-top: 10px;
+}
+
+.color-coding-img
+{
+    width: 50vw;
+}
+
+.org-svg
+{
+    width: 50vw;
+}
+
+@media only screen and (max-width: 800px)
+{
+    canvas
+    {
+        max-width: 70vw;
+    }
+
+}
+
+pre:not(.example)
+{
+    margin: 0 auto;
+    font-size: 0.9vw;
+    width: 75em;
+    color: white;
+    background-color: #102e4e;
+    border-radius: 10px;
+}
+
+blockquote
+{
+    margin-top: 10px;
+    background-color: #c5d8c5;
+    margin: 0 auto;
+    margin-top: 10px;
+    width: 80%;
+    border-radius: 3px;
+    padding: 5pt;
+}
+
+pre.example
+{
+    border: 0pt;
+    box-shadow: 0pt 0pt 0pt;
+}
+
+a
+{
+    text-decoration: none;
+}
+
+header
+{
+    background-color: #638291;
+    min-height: 100px;
+    width: 100%;
+    position:relative;
+}
+
+h1
+{
+    margin-top: 0;
+}
+
+#content
+{
+    margin-left: 15vw;
+    margin-right: 15vw;
+}
+
+.title
+{
+    color: white;
+    float: left;
+    margin-left: 1em;
+    margin-top: 1em;
+}
+
+.byline
+{
+    color: white;
+    float: right;
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
+.author
+{
+    float: right;
+}
+
+.title a:link, .title a:visited, .author a:link, .author a:visited
+{
+    color: white;
+}
+
+.license
+{
+    margin-top: 10px;
+    float: right;
+}
+
+.chapterlink, #supported-by-link
+{
+    color: black;
+    text-decoration: none;
+}
+
+#supported-by
+{
+    position:fixed;
+    right:0;
+    margin-right: 1vw;
+    margin-bottom: 1vw;
+    bottom:0;
+    height: 10vh;
+}
+
+#supported-by-img
+{
+    height: 100%;
+}
+
+#pixel-explanation-img, #while-flowchart-img
+{
+    width: 30vw;
+}
+
+#simple-recursion-tree-img, #square-split-diagonal-img
+{
+    width: 20vw;
+}

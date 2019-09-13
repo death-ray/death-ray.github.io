@@ -1,0 +1,212 @@
+#+INCLUDE: ohjelmointi-kappaleiden-yhteiset-asetukset.org
+
+* Animaatio
+** {{{example}}}
+   Kirjoitetaan ohjelma, joka piirtää alla olevan animaation.
+   #+NAME: animaatio-ympyra
+   #+BEGIN_SRC processing 
+     int x; // piirretyn ympyrän keskipisteen x-koordinaatti
+
+     void setup ()
+     {
+       size (400, 400);
+       colorMode (HSB, 100);
+
+       // piirtotaajuus: funktiota draw() kutsutaan 30 kertaa sekunnissa
+       frameRate (30); 
+
+       // ympyrän keskipiste on alussa vasemmassa reunassa
+       x = 0;
+     }
+
+     void draw ()
+     {
+       final float HALKAISIJA = 20;
+       background (0); // musta tausta
+       ellipse (x, height / 2.0, HALKAISIJA, HALKAISIJA); // ympyrä
+       x++; // kasvatetaan muuttujan x arvoa
+
+       // takaisin vasempaan reunaan, jos mentiin oikeasta reunasta yli
+       if (x >= width)
+         x = 0;
+     }
+   #+END_SRC
+
+   Animaatio voidaan piirtää alla olevalla ohjelmalla. Ohjelma toimii
+   seuraavasti.
+   - Toisin kuin edellisessä kappaleessa, funktiossa ~setup()~ /ei
+     kutsuta/ funktiota ~noLoop()~.
+   - Tällöin funktiota ~draw()~ kutsutaan automaattisesti toistuvasti.
+   - Funktiokutsu 
+     #+BEGIN_EXAMPLE
+     frameRate (30); 
+     #+END_EXAMPLE
+     aiheuttaa sen, että funktiota ~draw()~ kutsutaan toistuvasti
+     30 kertaa sekunnissa.
+   - Funktiossa ~draw()~ piirretään musta tausta ja valkoinen ympyrä,
+     jonka \(x\)-koordinaatti on muuttujassa ~x~.
+   - Muuttuja ~x~ on globaali muuttuja, jotta se säilyttää arvonsa
+     koko ohjelman suorituksen ajan.
+   - Jos ympyrän keskipiste siirtyisi kuvan ulkopuolelle (~x >=
+     width~), siirrytään takaisin kuvan vasempaan reunaan (~x = 0~).
+   #+BEGIN_SRC processing :noweb yes :exports code
+   <<animaatio-ympyra>>
+   #+END_SRC
+** Animaatiosilmukka
+   Alla oleva vuokaavio havainnollistaa /animaatiosilmukan/
+   toimintaa. Processing-ohjelman alussa funktiota ~setup()~ kutsutaan
+   kerran. Sen jälkeen funktiota ~draw()~ kutsutaan toistuvasti
+   silmukassa, mikäli funktiota ~noLoop()~ ei ole kutsuttu.
+   #+NAME: animaatiosilmukka
+   #+BEGIN_SRC asymptote :file animaatiosilmukka.svg :cache yes
+     import flowchart;
+     import unicode;
+
+     size (15cm, 0);
+
+     block startBlock = rectangle ("\texttt{setup ()}", (0, 0));
+     block updateBlock = rectangle ("\texttt{draw ()}", (1, 0));
+     block systemBlock = rectangle ("odotellaan", (2, 0));
+     pair p = (2, -.5);
+     dot (p, invisible);
+
+     draw (startBlock);
+     draw (updateBlock);
+     draw (systemBlock);
+
+     add (new void (picture pic, transform t)
+          {
+            draw(pic,
+   	      path (new pair[] {startBlock.right (t), updateBlock.left (t)},
+   		    Horizontal),
+   	      Arrow,
+   	      PenMargin);
+            draw(pic,
+   	      path (new pair[] {updateBlock.right (t), systemBlock.left (t)},
+   		    Horizontal),
+   	      Arrow,
+   	      PenMargin);
+            draw(pic,
+   	      path (new pair[] {systemBlock.bottom (t), t * p},
+   		    Vertical),
+   	      PenMargin);
+            draw(pic,
+   	      path (new pair[] {t * p, updateBlock.bottom (t)},
+   		    Horizontal),
+   	      Arrow,
+   	      PenMargin);
+          }
+          );
+
+   #+END_SRC
+
+   #+RESULTS[319bf6f9ef2ddbc805a8f726152680b68b0eb98a]: animaatiosilmukka
+   [[file:animaatiosilmukka.svg]]
+
+** Animaatiot näillä sivuilla
+   #+BEGIN_QUOTE
+   Koska useat animaatiot samalla sivulla voivat aiheuttaa ongelmia
+   selaimessa, näillä sivuilla on korkeintaan yksi animaatio
+   sivulla. Tämän takia alla olevat animaatiot ovat kukin omalla
+   sivullaan.
+   #+END_QUOTE
+** {{{example}}}
+   Alle oleva ohjelmakoodi piirtää [[file:animaatio-kulunut-aika-sivu.org][tällä sivulla]] näkyvän animaation,
+   jossa piirtoikkunan keskellä näytetään ohjelman alusta kulunut aika
+   sekunteina.
+
+   #+BEGIN_SRC processing :noweb yes :exports code
+   <<animaatio-kulunut-aika>>
+   #+END_SRC
+
+** {{{example}}}
+   Alla oleva ohjelmakoodi piirtää [[file:animaatio-oskilloiva-ympyra-sivu.org][tällä sivulla]] olevan animaation,
+   jossa piirtoikkunan keskellä oleva ympyrä vuorotellen suurenee ja
+   pienenee. Ympyrä on vihreä, jos halkaisija on yli puolet ikkunan
+   leveydestä; muuten ympyrä on sininen.
+
+   Ohjelmassa halkaisijan muutos yhdellä askeella on tallennettu
+   muuttujaan ~muutos~. Halkaisijan muutos on ohjelman alussa yhdellä
+   askeleella 1. Jos ympyrä ei enää mahtuisi piirtoikkunaan, ympyrää
+   aletaan pienentää, jolloin muuttujan ~muutos~ arvoksi tulee
+   ~-muutos~ eli \(-1.\) Vastaavasti, kun halkaisijaa pienennetään voi
+   käydä niin, että halkaisijan arvo olisi seuraavalla askeleella
+   pienempi tai yhtä suuri kuin nolla. Tällöin halkaisijaa ryhdytään
+   taas kasvattamaan.
+
+   #+BEGIN_SRC processing :noweb yes :exports code
+   <<animaatio-oskilloiva-ympyra>>
+   #+END_SRC
+   
+** Ohjelmarunko tehtävien ratkaisuihin
+   Useimmissa alla olevien tehtävien ratkaisuissa on sama
+   ohjelmarunko. Voit kopioida alla olevan ohjelmakoodin tehtävän
+   ratkaisun pohjaksi ja muuttaa siinä olevia lukuja tarvittaessa.
+   #+BEGIN_SRC processing :exports code
+     void setup ()
+     {
+       size (400, 400);
+       colorMode (HSB, 100);
+     }
+
+     void draw ()
+     {
+     }
+   #+END_SRC
+
+** Tehtäviä
+   1. Tee [[file:animaatio-nelio-sivu.org][tällä sivulla]] näkyvä animaatio. Voit valita piirtoikkunan ja
+      neliön koot vapaasti.
+   2. Tee [[file:animaatio-varisavy-sivu.org][tällä sivulla]] näkyvä animaatio, jossa ikkunan taustavärin
+      värisävy muuttuu yhdellä yksiköllä kunkin askeleen aikana.
+   3. Tee [[file:animaatio-viiva-sivu.org][tällä sivulla]] näkyvä animaatio. Kokeile mitä animaatiossa
+      tapahtuu, jos funktiosta ~draw()~ poistetaan funktion
+      ~background()~ kutsu.
+   4. Tee ohjelma, joka piirtää [[file:animaatio-valmiuspalkki-sivu.org][tällä sivulla]] näkyvän
+      animaation. Animaatiossa palkki on vihreä, jos sen pituus on yli
+      75\thinsp{}% piirtoikkunan leveydestä; muutoin palkki on
+      punainen.
+   5. Tee [[file:animaatio-liikennevalo-sivu.org][tällä sivulla]] näkyvä liikennevalo, joissa väri vaihtuu
+      viiden sekunnin välein. [Vihjeitä. Kuluneiden 5 sekunnin
+      jaksojen lukumäärän saat jakamalla sekuntien lukumäärän
+      luvulla 5. Sen, minkä kolmesta valosta pitäisi olla päällä voi
+      tämän jälkeen selvittää laskemalla jakojäännöksen, kun jaksojen
+      lukumäärän jaetaan luvulla 3.]
+   6. Tee [[file:animaatio-auringonpimennys-sivu.org][tällä sivulla]] näkyvä animaatio, joka havainnollistaa
+      auringonpimennystä. Auringonpimennyksessä Kuu sijoittuu Maan ja
+      Auringon väliin.
+** Ratkaisuja
+   1. 
+       #+BEGIN_SRC processing :noweb yes :exports code
+       <<animaatio-nelio>>
+       #+END_SRC
+   2. 
+       #+BEGIN_SRC processing :noweb yes :exports code
+       <<animaatio-varisavy>>
+       #+END_SRC
+   3. Jos funktiota ~background()~ ei kutsuta, kaikki piirretyt viivat
+      jäävät näkyviin. 
+       #+BEGIN_SRC processing :noweb yes :exports code
+       <<animaatio-viiva>>
+       #+END_SRC
+   4. 
+       #+BEGIN_SRC processing :noweb yes :exports code
+       <<animaatio-valmiuspalkki>>
+       #+END_SRC
+   5. 
+       #+BEGIN_SRC processing :noweb yes :exports code
+       <<animaatio-liikennevalo-generaattori()>>
+       #+END_SRC
+   6. 
+       #+BEGIN_SRC processing :noweb yes :exports code
+       <<animaatio-auringonpimennys>>
+       #+END_SRC
+
+#+INCLUDE: animaatio-kulunut-aika.org
+#+INCLUDE: animaatio-oskilloiva-ympyra.org
+#+INCLUDE: animaatio-nelio.org
+#+INCLUDE: animaatio-varisavy.org
+#+INCLUDE: animaatio-viiva.org
+#+INCLUDE: animaatio-valmiuspalkki.org
+#+INCLUDE: animaatio-liikennevalo.org
+#+INCLUDE: animaatio-auringonpimennys.org

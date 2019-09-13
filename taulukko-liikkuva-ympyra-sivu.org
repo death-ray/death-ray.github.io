@@ -1,0 +1,7 @@
+#+INCLUDE: ohjelmointi-animaatiosivun-yhteiset-asetukset.org
+
+#+BEGIN_SRC processing :noweb yes
+<<taulukko-liikkuva-ympyra>>
+#+END_SRC
+
+#+INCLUDE: taulukko-liikkuva-ympyra.org

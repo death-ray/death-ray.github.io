@@ -1,0 +1,26 @@
+#+NAME: loogiset-lausekkeet-muuttujat-alternoiva
+#+BEGIN_SRC processing :exports none
+  boolean piirretaan; // tosi jos ympyrä piirretään
+
+  void setup ()
+  {
+    size (400, 400);
+    colorMode (HSB, 100);
+    background (0);
+    fill (100);
+    frameRate (1); // piirretään kerran sekunnissa
+    piirretaan = false; // alkutilanteessa ei piirretä
+  }
+
+  void draw ()
+  {
+    background (0);
+
+    if (piirretaan)
+      ellipse (200, 200, 100, 100);
+
+    // vaihdetaan muuttujan totuusarvo vastakkaiseksi
+    piirretaan = !piirretaan;
+  }
+
+#+END_SRC

@@ -1,0 +1,7 @@
+#+INCLUDE: ohjelmointi-animaatiosivun-yhteiset-asetukset.org
+
+#+BEGIN_SRC processing :noweb yes
+<<animaatio-viiva>>
+#+END_SRC
+
+#+INCLUDE: animaatio-viiva.org

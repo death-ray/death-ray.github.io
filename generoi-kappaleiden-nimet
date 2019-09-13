@@ -1,0 +1,7 @@
+#!/bin/bash
+
+while read KAPPALETIEDOSTO;
+do
+    grep "^* " ${KAPPALETIEDOSTO}.org
+done < kappaletiedostot.txt | cut --characters=3- | tr -d "~" > kappaleiden-nimet.txt
+

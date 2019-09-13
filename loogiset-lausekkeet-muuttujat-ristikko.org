@@ -1,0 +1,37 @@
+#+NAME: loogiset-lausekkeet-muuttujat-ristikko
+#+BEGIN_SRC processing :exports none
+  final int X = 200, Y = 300; // ristikon risteyskohdan koordinaatit
+
+  void setup ()
+  {
+    size (600, 400);
+    colorMode (HSB, 100);
+    background (0);
+    stroke (100); // piirretään aluksi valkoiset viivat
+  }
+
+  void draw ()
+  {
+    line (X, 0, X, height); // pystyviiva
+    line (0, Y, width, Y); // vaakaviiva
+  }
+
+  void mousePressed ()
+  {
+    // testataan missä painallus sijaitsee suhteessa viivojen
+    // risteyskohtaan
+    boolean vasemmalla = mouseX < X;
+    boolean ylapuolella = mouseY < Y;
+
+    // asetetaan punainen piirtoväri, jos hiiren painallus on
+    // risteyskohdan vasemmalla puolella tai yläpuolella; muuten
+    // asetetaan sininen väri
+    float savy;
+    if (vasemmalla || ylapuolella)
+      savy = 0;
+    else
+      savy = 65;
+
+    stroke (savy, 100, 100);
+  }
+#+END_SRC

@@ -1,0 +1,7 @@
+#+INCLUDE: ohjelmointi-animaatiosivun-yhteiset-asetukset.org
+
+#+BEGIN_SRC processing :noweb yes
+<<hiiren-painallukset-x-koordinaatti>>
+#+END_SRC
+
+#+INCLUDE: hiiren-painallukset-x-koordinaatti.org

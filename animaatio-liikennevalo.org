@@ -1,0 +1,33 @@
+* 
+  #+NAME: animaatio-liikennevalo-generaattori
+  #+BEGIN_SRC elisp :var toIntegerStr="%s" :exports none
+    (concat "int aika; // alusta kulunut aika kokonaisina sekunteina
+
+    void setup ()
+    {
+      size (200, 200);
+      colorMode (HSB, 100);
+      aika = 0;
+      frameRate (1);
+    }
+
+    void draw ()
+    {
+      float savy;
+      int jaksot = "
+      (format toIntegerStr "aika / 5")
+      "; // kuinka monta 5s jaksoa on kulunut
+      int vaihe = jaksot % 3; // mikä vaihe on menossa
+      if (vaihe == 0)
+        savy = 0; // punainen
+      else if (vaihe == 1)
+        savy = 17; // keltainen
+      else
+        savy = 35; // vihreä
+
+      background (savy, 100, 100);
+      aika++;
+    }
+    ")
+  #+END_SRC
+

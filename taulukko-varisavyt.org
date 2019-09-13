@@ -1,0 +1,22 @@
+#+NAME: taulukko-varisavyarvot
+#+BEGIN_SRC org :exports none
+17, 35, 50, 65, 83
+#+END_SRC
+
+#+NAME: taulukko-varisavyt
+#+BEGIN_SRC processing :noweb yes :exports none
+  final float[] VARISAVYT = {<<taulukko-varisavyarvot>>};
+
+  void setup ()
+  {
+    size (200, 200);
+    colorMode (HSB, 100);
+    frameRate (1);
+  }
+
+  void draw ()
+  {
+    int indeksi = floor (random (VARISAVYT.length));
+    background (VARISAVYT [indeksi], 100, 100);
+  }
+#+END_SRC

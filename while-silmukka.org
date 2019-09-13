@@ -1,0 +1,438 @@
+#+INCLUDE: ohjelmointi-kappaleiden-yhteiset-asetukset.org
+
+* ~while~-silmukka
+** {{{example}}}
+   Piirretään alla oleva kuva, jossa on \(20\times 20\)-kokoisia
+   neliöitä piirtoikkunan lävistäjällä.
+
+   #+NAME: nelioita-lavistajalla
+   #+BEGIN_SRC processing
+     size (400, 400);
+     final float SIVU = 20;
+     noStroke (); // ei piirretä neliöiden ääriviivoja
+
+     float k = 0; // neliön yläkulman x- ja y-koordinaatti
+
+     while (k < width) // niin kauan kuin ollaan ikkunan sisällä...
+     {
+       // ... suoritetaan tämä lauselohko
+       rect (k, k, SIVU, SIVU); // piirretään neliö
+       k = k + SIVU; // kasvatetaan yläkulman koordinaattia
+     }
+   #+END_SRC
+
+   Sen sijaan, että joutuisimme kirjoittamaan yhden koodirivin kutakin
+   neliötä kohden, ohjelma voidaan kirjoittaa
+   ~while~-kontrollirakenteen avulla.
+
+   #+BEGIN_SRC processing :exports code :noweb yes
+   <<nelioita-lavistajalla>>
+   #+END_SRC
+** ~while~-rakenne
+   #+BEGIN_QUOTE
+   ~while~-rakenteessa on
+   1. ~ehto~, joka määrää kuinka kauan lauseke tai lausekelohko suoritetaan
+   2. lauseke tai lausekelohko, joka suoritetaan niin kauan kuin ehto
+      on tosi
+   #+BEGIN_EXAMPLE
+     while (ehto)
+       lauseke tai lohko, joka suoritetaan niin kauan kuin ehto tosi;
+   #+END_EXAMPLE
+   #+END_QUOTE
+
+   Huomaa, että
+   - ~ehto~ kirjoitetaan sulkujen sisään
+   - ~while~-rivin lopussa ei ole puolipistettä.
+** Nimitys ~while~-silmukka
+   ~while~-rakennetta kutsutaan yleisemmin ~while~-silmukaksi.
+   Tietokoneohjelman toimintaa kuvaavissa piirroksissa, joita
+   kutsutaan /vuokaavioiksi/, ~while~-rakenne muodostaa silmukan. Alla
+   on piirretty vuokaavio edellä kuvatusta ohjelmasta. Alla olevassa
+   vuokaaviossa
+   - ympyrät kuvaavat ohjelman alkua ja loppua
+   - alusta liikutaan loppuun nuolien suuntaisesti
+   - ruutu kuvaa ehtoa, josta voidaan lähteä useaan suuntaan
+   - suorakaide kuvaa toimintaa.
+   Piirrokseen muodostuu silmukka taaksepäin, kun tietokoneohjelman
+   suoritus palaa takaisin ohjelman aiemmalle riville.
+
+   #+BEGIN_SRC asymptote :file while-silmukka-vuokaavio.svg
+     import flowchart;
+     import unicode;
+
+     size (8cm, 0);
+
+
+     block beginBlock = circle("alku",(0, 0));
+     block initBlock = rectangle ("k = 0", (0, -.5));
+     block conditionBlock = diamond ("k $<$ width",(0,-1));
+     block actionBlock= rectangle ("piirretään neliö kohtaan (k, k)",(0,-1.6));
+     block postBlock = rectangle ("k = k + \texttt{SIVU} ",(0,-2));
+     block endBlock = circle("loppu",(0,-2.5));
+     pair p = (-1, -1);
+     pair q = (1, -1);
+     dot (q, invisible); // to make x bounding well defined
+
+     draw (beginBlock);
+     draw (initBlock);
+     draw (conditionBlock);
+     draw (actionBlock);
+     draw (postBlock);
+     draw (endBlock);
+
+     add(new void(picture pic, transform t) {
+   	draw(pic,path(new pair[]{beginBlock.bottom(t),initBlock.top(t)},
+   		      Vertical),Arrow,PenMargin);
+   	draw(pic,path(new pair[]{initBlock.bottom(t),conditionBlock.top(t)},Vertical),
+   	     Arrow,PenMargin);
+   	draw(pic,Label("kyllä",0.2,SW),path(new pair[]{conditionBlock.bottom(t),actionBlock.top(t)},
+   					    Vertical),Arrow,PenMargin);
+   	draw(pic,path(new pair[]{actionBlock.bottom(t),postBlock.top(t)},
+   		      Vertical),Arrow,PenMargin);
+   	draw(pic,path(new pair[]{postBlock.left(t),t*p},
+   		      Horizontal),PenMargin);
+   	draw(pic,path(new pair[]{t*p,conditionBlock.left(t)},
+   		      Horizontal),Arrow,PenMargin);
+   	draw(pic,Label("ei",0.5,NE),path(new pair[]{conditionBlock.right(t),t*q},Horizontal),PenMargin);
+   	draw(pic,path(new pair[]{t*q,endBlock.right(t)},
+   		      Vertical),Arrow,PenMargin);
+         });
+
+   #+END_SRC
+
+   #+ATTR_HTML: :id while-flowchart-img
+   #+RESULTS:
+   [[file:while-silmukka-vuokaavio.svg]]
+
+** {{{example}}}
+   Piirretään \(400\times 400\)-kokoiseen ikkunaan alla olevan
+   kaltainen kuva. Kunkin viivan kuvan alareunassa olevan päätepisteen
+   \(x\)-koordinaatti määrää viivan värisävyn siten, että värisävy on
+   \(\displaystyle\frac{x}{4}.\) Kuvan alareunan vierekkäisten
+   päätepisteiden väli on 5 pikseliä.
+
+   #+NAME: viivoja-origosta-alareunaan
+   #+BEGIN_SRC processing
+     size (400, 400);
+     colorMode (HSB, 100);
+     background (0); // musta tausta
+
+     float x = 0; // alareunassa olevan päätepisteen x-koordinaatti
+     while (x < width) // niin kauan kun piste on kuvan sisällä
+     {
+       stroke (x / 4, 100, 100); // asetetaan väri
+       line (0, 0, x, height); // piirretään viiva
+       x = x + 5;
+     }
+   #+END_SRC
+
+   #+BEGIN_SRC processing :exports code :noweb yes
+   <<viivoja-origosta-alareunaan>>
+   #+END_SRC
+** {{{example}}}
+  Piirretään alla oleva kuva, jossa neliön muotoiseen piirtoikkunaan
+  piirretään ruudukko. Ruudukossa vierekkäisten yhdensuuntaisten
+  viivojen välinen etäisyys on vakio ~L~. 
+  #+NAME: ruudukko-alku
+  #+BEGIN_SRC processing :exports none
+    size (401, 401);
+    final float L = 10; // viivojen välinen etäisyys
+  #+END_SRC
+
+  #+NAME: ruudukko-kahdella-silmukalla
+  #+BEGIN_SRC processing :noweb yes
+    <<ruudukko-alku>>
+
+    float x = 0; // pystysuoran viivan x-koordinaatti
+    while (x < width)
+    {
+      line (x, 0, x, height);
+      x = x + L;
+    }
+
+    float y = 0; // vaakasuoran viivan y-koordinaatti
+    while (y < height)
+    {
+      line (0, y, width, y);
+      y = y + L;
+    }
+  #+END_SRC
+
+  Yllä olevassa esimerkissa piirtoikkunan koko on \(401\times 401\) ja
+  vakion ~L~ arvo 10. Tällöin viimeinen pystyviiva piirtyy ruudukon
+  oikeaan reunaan: ensimmäinen pystyviiva piirretään 1. pikselin
+  kohdalle, toinen pystyviiva 11. pikselin kohdalle jne., jolloin
+  viimeinen kuvaan piirrettävä pystyviiva tulee 401. pikselin
+  kohdalle.
+
+  Kirjoitetaan kaksi erilaista ratkaisua. Ensimmäisessä piirretään
+  ensin pystyviivat yhdessä ~while~-silmukassa ja sen jälkeen
+  vaakaviivat toisessa silmukassa.
+  
+  #+BEGIN_SRC processing :noweb yes :exports code
+  <<ruudukko-kahdella-silmukalla>>
+  #+END_SRC
+
+  Toisessa ratkaisussa riittää yksi silmukka, jonka sisällä piirretään
+  yksi vaakasuora ja yksi pystysuora viiva.
+  #+BEGIN_SRC processing :exports both :noweb yes
+    <<ruudukko-alku>>
+
+    float p = 0; // viivan toinen koordinaatti
+    while (p < width)
+    {
+      line (p, 0, p, height); // pystysuora viiva
+      line (0, p, width, p); // vaakasuora viiva
+      p = p + L;
+    }
+
+  #+END_SRC
+** {{{example}}}
+   Piirretään alla oleva murtoviiva piirtoikkunaan, jonka koko on
+   \(600\times 400\). Murtoviivan \ldquo{}ensimmäinen piste\rdquo on
+   piirtoikkunan vasemmassa alakulmassa. Jos viivan tämänhetkinen
+   kärkipiste on kohdassa \((x, y)\), niin seuraava kärkipiste on
+   kohdassa \(\displaystyle\left(x + 100, \frac{y}{2}\right)\).
+
+   #+NAME: while-hyperbeli
+   #+BEGIN_SRC processing
+     size (600, 400);
+     colorMode (HSB, 100);
+     background (0);
+     stroke (100);
+
+     float x = 0, y = height;
+
+     while (x < width)
+     {
+       float xSeuraava = x + 100;
+       float ySeuraava = y / 2;
+
+       line (x, y, xSeuraava, ySeuraava);
+  
+       x = xSeuraava;
+       y = ySeuraava;
+     }
+   #+END_SRC
+
+   Alla olevassa ohjelmassa muuttujat ~x~ ja ~y~ sisältävät tiedon
+   piirrettävän viivan kärkipisteestä. Kullakin kierroksella
+   ~while~-silmukan sisällä lasketaan seuraavan kärkipisteen
+   koordinaatit muuttujiin ~xSeuraava~ ja ~ySeuraava~, piirretään
+   viiva ja päivitetään kärkipisteen koordinaatit.
+
+   #+BEGIN_SRC processing :exports code :noweb yes
+   <<while-hyperbeli>>
+   #+END_SRC
+
+   Huomaa, että ohjelmakoodissa muuttujat ~xSeuraava~ ja ~ySeuraava~
+   määritellään lauselohkon sisällä. Ne voitaisiin määritellä myös
+   lauselohkon ulkopuolella, mutta niitä ei tarvita siellä. Tähän
+   asiaan palataan [[file:funktion-maaritteleminen.org][kappaleessa, jossa määritellään funktioita]].
+
+** Tehtävät
+   1. Piirrä alla oleva kuva. Piirtoikkunan koko on \(400\times 400\)
+      ja ympyröiden halkaisija 20.
+      #+NAME: while-ympyroita-puolivalissa
+      #+BEGIN_SRC processing
+        size (400, 400);
+        final float H = 20; // halkaisija
+        float x = H / 2;
+
+        while (x < width)
+        {
+          ellipse (x, height / 2.0, H, H);
+          x = x + H;
+        }
+
+      #+END_SRC
+   2. Piirrä alla oleva kuva. Piirtoikkunan koko on \(400\times 400\)
+      ja ympyröiden halkaisija 20.
+      #+NAME: while-ympyroita-halkaisijalla
+      #+BEGIN_SRC processing
+        size (400, 400);
+        final float HALKAISIJA = 20;
+        float k = HALKAISIJA / 2;
+
+        while (k < width)
+        {
+          ellipse (k, k, HALKAISIJA, HALKAISIJA);
+          k = k + HALKAISIJA;
+        }
+
+      #+END_SRC
+   3. Piirrä alla oleva kuva piirtoikkunaan, jonka koko on
+      \(1000\times 100\). Kuvassa olevien ympyröiden halkaisija on
+      yhtä suuri kuin piirtoikkunan korkeus. Kunkin ympyrän värisävy
+      on \(\displaystyle\frac{\mathtt{x}}{10}\), missä ympyrän
+      keskipisteen \(x\)-koordinaatti on ~x~.
+      #+NAME: while-varikkaita-ympyroita
+      #+BEGIN_SRC processing
+        size (1000, 100);
+        final float HALKAISIJA = height;
+        final float SADE = HALKAISIJA / 2;
+
+        colorMode (HSB, 100);
+	noStroke ();
+        background (0);
+
+        float x = HALKAISIJA / 2;
+
+        while (x < width)
+        {
+          fill (x / 10, 100, 100);
+          ellipse (x, SADE, HALKAISIJA, HALKAISIJA);
+          x = x + HALKAISIJA;
+        }
+      #+END_SRC
+   4. Piirrä alla oleva kuva, jonka tulee skaalautua piirtoikkunan
+      koon mukana. Kunkin pystyviivan värisävy on Processing-koodina
+      ilmaistuna ~(x / width * 100)~, missä ~x~ on pystyviivan
+      \(x\)-koordinaatti.
+
+      #+NAME: while-varikkaita-pystyviivoja
+      #+BEGIN_SRC processing
+        size (300, 100);
+
+        colorMode (HSB, 100);
+
+        float x = 0;
+        while (x < width)
+        {
+          stroke (x / width * 100, 100, 100);
+          line (x, 0, x, height);
+          x = x + 1;
+        }
+      #+END_SRC
+   5. Piirrä seuraavat kuvat. Piirtoikkunan koko on \(400\times 400\)
+      ja valkoisten neliöiden koko \(20\times 20\). 
+      #+NAME: while-valkoisia-nelioita-alku
+      #+BEGIN_SRC processing :exports none
+        size (400, 400);
+        final float SIVU = 20;
+        noStroke ();
+
+      #+END_SRC
+      a) 
+	 #+NAME: while-valkoisia-nelioita-dy-pienempi
+	 #+BEGIN_SRC processing :noweb yes
+	   <<while-valkoisia-nelioita-alku>>
+           float x = 0, y = 0;
+
+           while (x < width)
+           {
+             rect (x, y, SIVU, SIVU);
+             x = x + SIVU;
+             y = y + SIVU / 2;
+           }
+	 #+END_SRC
+      b) 
+	 #+NAME: while-valkoisia-nelioita-dx-pienempi
+	 #+BEGIN_SRC processing :noweb yes
+	   <<while-valkoisia-nelioita-alku>>
+           float x = 0, y = 0;
+
+           while (y < height)
+           {
+             rect (x, y, SIVU, SIVU);
+             x = x + SIVU / 2;
+             y = y + SIVU;
+           }
+	 #+END_SRC
+      c) 
+	 #+NAME: while-valkoisia-nelioita-dy-negatiivinen
+	 #+BEGIN_SRC processing :noweb yes
+           <<while-valkoisia-nelioita-alku>>
+           float x = 0, y = height - SIVU;
+           while (x < width)
+           {
+             rect (x, y, SIVU, SIVU);
+             x = x + SIVU;
+             y = y - SIVU;
+           }
+	 #+END_SRC
+   6. Piirrä alla oleva kuvio piirtoikkunaan, jonka koko on
+      \(401\times 401\). Vierekkäisten janojen päätepisteiden välinen
+      etäisyys sekä ikkunan ylä- että alareunassa on 10.
+      #+NAME: while-tiimalasi
+      #+BEGIN_SRC processing
+        size (401, 401);
+
+        float x = 0;
+        while (x < width)
+        {
+          line (x, 0, width - x, height);
+          x = x + 10;
+        }
+
+      #+END_SRC
+   7. Piirrä alla oleva kuvio \(600\times 400\)-kokoiseen
+      piirtoikkunaan. Valkoinen viiva koostuu lyhyistä
+      janoista. Vasemmalla ylhäällä olevan janan vasemmanpuoleinen
+      päätepiste on koordinaateissa \((1, 1)\). Jos viivan
+      tämänhetkinen kärkipiste on kohdassa \((x, y)\), niin seuraava
+      kärkipiste on kohdassa \((x + 5; 1\text{,}05y)\).
+      #+NAME: while-eksponentiaalinen
+      #+BEGIN_SRC processing
+        size (600, 400);
+
+        colorMode (HSB, 100);
+        background (0);
+        stroke (100);
+
+        float x = 1, y = 1; // viivan kärkipiste
+
+        while (x < width)
+        {
+          // seuraavan kärkipisteen koordinaatit
+          float xSeuraava = x + 5;
+          float ySeuraava = 1.05 * y;
+
+          line (x, y, xSeuraava, ySeuraava); // jana
+
+          // päivitetään kärkipisteen koordinaatit
+          x = xSeuraava;
+          y = ySeuraava;
+        }
+      #+END_SRC
+** Ratkaisuja
+   1. 
+      #+BEGIN_SRC processing :exports code :noweb yes
+      <<while-ympyroita-puolivalissa>>
+      #+END_SRC
+   2. 
+      #+BEGIN_SRC processing :exports code :noweb yes
+      <<while-ympyroita-halkaisijalla>>
+      #+END_SRC
+   3. 
+      #+BEGIN_SRC processing :exports code :noweb yes
+      <<while-varikkaita-ympyroita>>
+      #+END_SRC
+   4. 
+      #+BEGIN_SRC processing :exports code :noweb yes
+      <<while-varikkaita-pystyviivoja>>
+      #+END_SRC
+   5. 
+      a) 
+	 #+BEGIN_SRC processing :exports code :noweb yes
+	 <<while-valkoisia-nelioita-dy-pienempi>>
+	 #+END_SRC
+      b) 
+	 #+BEGIN_SRC processing :exports code :noweb yes
+	 <<while-valkoisia-nelioita-dx-pienempi>>
+	 #+END_SRC
+      c) 
+	 #+BEGIN_SRC processing :exports code :noweb yes
+	 <<while-valkoisia-nelioita-dy-negatiivinen>>
+	 #+END_SRC
+   6. 
+       #+BEGIN_SRC processing :exports code :noweb yes
+       <<while-tiimalasi>>
+       #+END_SRC
+
+   7. 
+       #+BEGIN_SRC processing :exports code :noweb yes
+       <<while-eksponentiaalinen>>
+       #+END_SRC
+
+

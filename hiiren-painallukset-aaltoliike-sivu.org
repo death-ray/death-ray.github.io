@@ -1,0 +1,7 @@
+#+INCLUDE: ohjelmointi-animaatiosivun-yhteiset-asetukset.org
+
+#+BEGIN_SRC processing :noweb yes
+<<hiiren-painallukset-aaltoliike>>
+#+END_SRC
+
+#+INCLUDE: hiiren-painallukset-aaltoliike.org

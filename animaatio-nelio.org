@@ -1,0 +1,23 @@
+#+NAME: animaatio-nelio
+#+BEGIN_SRC processing :exports none
+  final float SIVU = 40;
+  int y; // neliön vasemman yläkulman y-koordinaatti
+
+  void setup ()
+  {
+    size (400, 400);
+    colorMode (HSB, 100);
+    fill (100);
+    y = 0;
+    frameRate (30);
+  }
+
+  void draw ()
+  {
+    background (0);
+    rect (0, y, SIVU, SIVU);
+    y++;
+    if (y >= height)
+      y = 0;
+  }
+#+END_SRC

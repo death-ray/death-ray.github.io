@@ -1,0 +1,7 @@
+#+INCLUDE: ohjelmointi-animaatiosivun-yhteiset-asetukset.org
+
+#+BEGIN_SRC processing :noweb yes
+<<hiiren-painallukset-murtoviiva>>
+#+END_SRC
+
+#+INCLUDE: hiiren-painallukset-murtoviiva.org

@@ -1,0 +1,471 @@
+#+INCLUDE: ohjelmointi-kappaleiden-yhteiset-asetukset.org
+
+* Desimaaliluku ja jakolasku
+** Desimaalierotin
+   Processing-ohjelmointikielessä desimaalierotin on piste. Seuraava
+   esimerkki piirtää kohtaan \((100, 100)\) suorakaiteen, jonka
+   korkeus on leveyden ja luvun 0,3 tulo. (Toisin sanoen korkeus on
+   30\thinsp{}% leveydestä.)
+   #+BEGIN_SRC processing :exports both
+     size (400, 400);
+     final float LEVEYS = 150;
+     rect (100, 100, LEVEYS, 0.3 * LEVEYS);
+   #+END_SRC
+** Jakolasku
+   Jakolaskuoperaattori Processing-kielessä on kauttaviiva ~/~. Alla
+   olevassa esimerkissä piirretään neliö ja sen kanssa kulmittain
+   suorakaide, joka leveys on puolet ja korkeus kolmasosa neliön sivun
+   pituudesta.
+   #+BEGIN_SRC processing :exports both
+     size (400, 400);
+     final float SIVU = 150;
+     rect (0, 0, SIVU, SIVU);
+     rect (SIVU, SIVU, SIVU / 2, SIVU / 3);
+   #+END_SRC
+** Kokonaislukujen jakolasku antaa kokonaisluvun
+   Jakolaskuun liittyy suorastaan vaarallinen yksityiskohta. 
+
+   #+BEGIN_QUOTE
+   Kahden kokonaisluvun jakolasku antaa tulokseksi
+   kokonaisluvun. Tulos on jakolaskun kokonaislukuosa
+   #+END_QUOTE
+
+   Alla olevaan taulukkoon on kirjattu muutamia jakolaskuja sekä
+   niiden antama tulos. 
+   | jakolasku | tulos |
+   |-----------+-------|
+   | ~10 / 2~  |     5 |
+   | ~8 / 5~   |     1 |
+   | ~1 / 5~   |     0 |
+   Ensimmäinen tulos on odotettu. Kaksi muuta ovat esimerkkejä siitä,
+   että kokonaislukujen jakolaskussa desimaaliosa jätetään pois.
+
+   Miten kokonaislukuja voidaan sitten jakaa niin, että tulokseksi
+   saadaan desimaaliluku? Merkitsemällä toinen kokonaisluku
+   desimaalilukuna.
+   | jakolasku  | tulos |
+   |------------+-------|
+   | ~10.0 / 2~ |   5.0 |
+   | ~8 / 5.0~  |   1.6 |
+   | ~1.0 / 5~  |   0.2 |
+   | ~1 / 5.0~  |   0.2 |
+   
+   Kaikki ~float~-tyyppiset vakiot ovat desimaalilukuja, vaikka niiden
+   arvoksi olisi asetettu kokonaisluku. Jos esimerkiksi 
+
+   ~final float K = 5;~
+
+   niin ~K~ on tämän jälkeen desimaaliluku.
+
+   Miksi kokonaislukujen jakolasku antaa tulokseksi kokonaisluvun?
+   Koska se on hyödyllinen laskutoimitus, ja tietokone osaa laskea sen
+   nopeammin.
+** Sisäiset \ldquo{}vakiot\rdquo{} ~width~ ja ~height~ ja skaalautuvat kuvat
+   Processing-ohjelma määrittelee automaattisesti
+   \ldquo{}kokonaislukuvakiot\rdquo{} ~width~ ja ~height~, joiden
+   arvot ovat piirtoikkunan leveys ja korkeus. Periaatteessa ikkunan
+   koko voi muuttua ohjelman suorituksen aikana, joten luvut eivät
+   tarkalleen ottaen ole vakioita, mutta meidän ohjelmissamme ne eivät
+   muutu.
+
+   Koska ~width~ ja ~height~ ovat kokonaislukuja, niiden jakaminen
+   kokonaisluvulla antaa tuloksena kokonaisluvun. Yleensä tällä ei ole
+   suurta vaikutusta saatuun kuvaan, koska ikkunan koko on suuri
+   luku. Jos ~width~ on vaikkapa 455, niin ~(width / 2)~ antaa arvoksi
+   227, kun taas ~(width / 2.0)~ antaa 227.5. Lisäksi piirrettäessä
+   kuvioita näyttöön desimaaliarvot pyöristetään usein taas
+   kokonaisluvuiksi.
+
+   Seuraavassa esimerkissä piirretään neliön muotoiseen piirtoikkunaan
+   mahdollisimman suuri ympyrä. Laskutoimitus ~width / 2.0~ antaa
+   puolet neliön sivun pituudesta eli ympyrän säteen. Ympyrä
+   piirretään käyttämällä funktiota ~ellipse()~, jolla voidaan piirtää
+   eri kokoisia ellipsejä. Funktiolle annetaan neljä lukua.  Kaksi
+   ensimmäistä lukua määräävät ellipsin keskipisteen. Seuraava luku
+   määrää ellipsin leveyden ja viimeinen ellipsin korkeuden. Jos
+   leveys ja korkeus ovat samat, saadaan ympyrä.
+   #+NAME: desimaaliluku-ympyra-runko 
+   #+BEGIN_SRC processing :exports none
+     // ympyrän säde
+     final float SADE = width / 2.0; 
+     ellipse (SADE, SADE, width, width);
+   #+END_SRC
+
+   #+BEGIN_SRC processing :exports both :noweb yes
+     size (400, 400);
+     <<desimaaliluku-ympyra-runko>>
+   #+END_SRC
+
+   Piirretty kuva /skaalautuu automaattisesti/ piirtoikkunan koon
+   muuttuessa, eli ympyrä täyttää neliön muotoisen ikkunan, vaikka
+   ikkuna olisi suurempi tai pienempi.
+   
+   #+BEGIN_SRC processing :exports both :noweb yes
+     size (100, 100);
+     <<desimaaliluku-ympyra-runko>>
+   #+END_SRC
+** {{{example}}}
+   Suomen, Ruotsin ja Tanskan lipuissa on jonkin värinen risti toisen
+   värisellä pohjalla. Värien lisäksi lipuissa vaihtelevat
+   mittasuhteet. Esimerkiksi Ruotsin lippu jakautuu eri osiin
+   vasemmasta yläkulmasta katsoen pystysuunnassa suhteessa \(4 : 2 :
+   4\) ja vaakasuunnassa suhteessa \(5 : 2 : 9\). Alla oleva kuva
+   havainnollistaa näitä mittoja.
+
+   #+NAME: lippu-mitat
+   #+BEGIN_SRC asymptote :file lippu-mitat.svg :cache yes
+     size (15cm, 0);
+     int YLA = 4, KESKI_PYSTY = 2, ALA = 4;
+     int VASEN = 5, KESKI_LEVEYS = 2, OIKEA = 9;
+
+     pair A = (0, 0);
+     pair B = (0, ALA);
+     pair C = B + (0, KESKI_PYSTY);
+     pair D = C + (0, YLA); 
+     draw ((string) ALA, A -- B, Arrows);
+     draw ((string) KESKI_PYSTY, B -- C, Arrows);
+     draw ((string) YLA, C -- D, Arrows);
+
+     pair F = D + (VASEN, 0);
+     draw ((string) VASEN, D -- F, Arrows);
+     pair G = F + (KESKI_LEVEYS, 0);
+     draw ((string) KESKI_LEVEYS, F -- G, Arrows);
+     pair H = G + (OIKEA, 0);
+     draw ((string) OIKEA, G -- H, Arrows);
+
+     draw (A -- (H.x, A.y) -- H, dashed);
+     draw (B -- (F.x, B.y) -- (F.x, A.y), dashed);
+     draw (C -- (F.x, C.y) -- F, dashed);
+     draw (G -- (G.x, C.y) -- (H.x, C.y), dashed);
+     draw ((G.x, A.y) -- (G.x, B.y) -- (H.x, B.y), dashed);
+   #+END_SRC
+
+   #+RESULTS[ca51d06e6e710c7a24ccd0aaa1c7b4a5ff1afa4e]: lippu-mitat
+   [[file:lippu-mitat.svg]]
+
+   Alla olevalla ohjelmalla voidaan piirtää neliön muotoiseen ikkunaan
+   vakioita vaihtelemalla Ruotsin, Tanskan tai Suomen lippu. Vakioina
+   annetaan mittasuhteet sekä värien tiedot. Lippu piirretään koko
+   piirtoikkunan levyisenä. Ensimmäisenä lasketaan, mikä on tällöin
+   lipun mitoissa olevan yhden \ldquo{}osan\rdquo{} suuruus. Jos
+   leveys on vaikkapa 600, ja kyseessä on Ruotsin lippu, niin yhden
+   osan suuruus on tällöin \[ \frac{600}{5 + 2 + 9} = 37,5. \]
+ 
+   #+NAME: liput-runko
+   #+BEGIN_SRC processing :exports none
+     // yhden osan pituus kuvassa: kuvan leveys jaettuna vaakasuunnan
+     // osien summalla
+     final float OSA = width / (VASEN + KESKI_LEVEYS + OIKEA);
+     
+     // lipun korkeus
+     final float KORKEUS = (YLA + KESKI_PYSTY + ALA) * OSA;
+
+     colorMode (HSB, 100);
+     noStroke ();
+
+     // lipun tausta
+     fill (TAUSTA_SAVY, TAUSTA_KYLLAISYYS, TAUSTA_KIRKKAUS);
+     rect (0, 0, width, KORKEUS);
+
+     // risti
+     fill (RISTI_SAVY, RISTI_KYLLAISYYS, RISTI_KIRKKAUS);
+     rect (VASEN * OSA, 0, KESKI_LEVEYS * OSA, KORKEUS); // pystypalkki
+     rect (0, YLA * OSA, width, KESKI_PYSTY * OSA); // vaakapalkki
+   #+END_SRC
+
+   #+BEGIN_SRC processing :exports both :noweb yes
+     size (600, 600);
+     // suhteet vaakasuunnassa
+     final float VASEN = 5;
+     final float KESKI_LEVEYS = 2;
+     final float OIKEA = 9;
+
+     // suhteet pystysuunnassa
+     final float YLA = 4;
+     final float KESKI_PYSTY = 2;
+     final float ALA = 4;
+
+     // taustaväri
+     final float TAUSTA_SAVY = 58;
+     final float TAUSTA_KYLLAISYYS = 100;
+     final float TAUSTA_KIRKKAUS = 26;
+
+     // ristin väri
+     final float RISTI_SAVY = 13;
+     final float RISTI_KYLLAISYYS = 100;
+     final float RISTI_KIRKKAUS = 100;
+
+     <<liput-runko>>
+   #+END_SRC
+
+   Muuttamalla kuvan kokoa sekä vakioita, jotka säätelevät
+   mittasuhteita ja värejä saadaan pienempi Tanskan lippu. Tanskan
+   lipussa vaakasuunta jakautuu suhteissa \(12 : 4 : 21\) ja
+   pystysuunta vastaavissa mitoissa suhteessa \(12 : 4: 12.\)
+   #+BEGIN_SRC processing :exports both :noweb yes
+     size (350, 350);
+     // suhteet vaakasuunnassa
+     final float VASEN = 12;
+     final float KESKI_LEVEYS = 4;
+     final float OIKEA = 21;
+
+     // suhteet pystysuunnassa
+     final float YLA = 12;
+     final float KESKI_PYSTY = 4;
+     final float ALA = 12;
+
+     // taustaväri
+     final float TAUSTA_SAVY = 97;
+     final float TAUSTA_KYLLAISYYS = 92;
+     final float TAUSTA_KIRKKAUS = 78;
+
+     // ristin väri
+     final float RISTI_SAVY = 0;
+     final float RISTI_KYLLAISYYS = 0;
+     final float RISTI_KIRKKAUS = 100;
+
+     <<liput-runko>>
+   #+END_SRC
+** Tehtävät
+   1. Piirrä neliön muotoiseen piirtoikkunan vasempaan yläkulmaan
+      annettu kuvio. Kuvion tulee skaalautua piirtoikkunan mukana.
+      a) neliö, jonka sivun pituus on kolmasosa piirtoikkunan sivun pituudesta
+      b) suorakulmio, jonka leveys on puolet ja korkeus 76\thinsp{}%
+         piirtoikkunan sivun pituudesta
+      c) ympyrä, jonka säde on kaksi seitsemäsosaa neliön sivun pituudesta.
+   2. Piirrä neliön muotoiseen piirtoikkunaan alla oleva kuva, joka
+      skaalautuu piirtoikkunan mukana. Keltaisen värin HSB-arvot ovat
+      \((17, 100, 100).\)
+      #+NAME: desimaaliluku-pacman
+      #+BEGIN_SRC processing
+        size (200, 200);
+        colorMode (HSB, 100);
+        noStroke ();
+        background (0);
+        fill (17, 100, 100);
+        final float SADE = width / 2.0;
+        ellipse (SADE, SADE, width, width);
+        fill (0);
+        triangle (width, 0, SADE, SADE, width, width);
+      #+END_SRC
+   3. Piirrä alla olevat kuviot neliön muotoiseen
+      piirtoikkunaan. Kuvioiden tulee skaalautua automaattisesti, jos
+      piirtoikkunan kokoa muutetaan.
+      a) 
+	  #+NAME: desimaaliluku-ympyrat-paallekkain
+	  #+BEGIN_SRC processing
+            size (300, 300);
+            final float HALKAISIJA = width / 2.0;
+	    final float SADE = HALKAISIJA / 2.0;
+            ellipse (SADE, HALKAISIJA, HALKAISIJA, HALKAISIJA);
+            ellipse (3 * SADE, HALKAISIJA, HALKAISIJA, HALKAISIJA);
+	  #+END_SRC
+      b) 
+	  #+NAME: desimaaliluku-ympyrat-vierekkain
+	  #+BEGIN_SRC processing
+            size (300, 300);
+            final float HALKAISIJA = height / 2.0;
+            final float SADE = HALKAISIJA / 2.0;
+            ellipse (HALKAISIJA, SADE, HALKAISIJA, HALKAISIJA);
+            ellipse (HALKAISIJA, 3 * SADE, HALKAISIJA, HALKAISIJA);
+	  #+END_SRC
+      c) 
+	 #+NAME: desimaaliluku-ellipsit
+	 #+BEGIN_SRC processing
+           size (300, 300);
+	   final float PUOLET = width / 2.0;
+           ellipse (PUOLET, PUOLET / 2.0, width, PUOLET);
+           ellipse (PUOLET, 1.5 * PUOLET, width, PUOLET);
+	 #+END_SRC
+      d) 
+	  #+NAME: desimaaliluku-nelja-ympyraa
+	  #+BEGIN_SRC processing
+            size (300, 300);
+            final float HALKAISIJA = width / 2.0;
+	    final float NELJANNES = width / 4.0;
+            ellipse (NELJANNES, NELJANNES, HALKAISIJA, HALKAISIJA);
+            ellipse (3 * NELJANNES, NELJANNES, HALKAISIJA, HALKAISIJA);
+            ellipse (NELJANNES, 3 * NELJANNES, HALKAISIJA, HALKAISIJA);
+            ellipse (3 * NELJANNES, 3 * NELJANNES, HALKAISIJA, HALKAISIJA);
+	  #+END_SRC
+   4. Piirrä alla olevan kaltainen kuva, joka skaalautuu piirtoikkunan
+      mukana. Ohjelmassa määritelty vakio ~P~ määrää, kuinka monta
+      prosenttia vihreä palkki peittää kuvasta. Kuvassa vakion ~P~
+      arvo on 75. Voit valita vapaasti kuvan värisävyt.
+      #+NAME: desimaaliluku-vihrea-palkki
+      #+BEGIN_SRC processing
+        size (600, 100);
+        final float P = 70;
+        final float VIHREA_LEVEYS = P / 100 * width;
+	
+	colorMode (HSB, 100);
+	noStroke ();
+
+	// vihreä suorakulmio
+	fill (21, 100, 71);
+        rect (0, 0, VIHREA_LEVEYS, height);
+
+	// sininen suorakulmio
+	fill (53, 93, 73);
+        rect (VIHREA_LEVEYS, 0, width - VIHREA_LEVEYS, height);
+      #+END_SRC
+   5. Piirrä alla oleva kuvio, joka skaalautuu piirtoikkunan
+      mukana. Ohjelmassa määritellyt vakiot ~A~ ja ~B~ määräävät,
+      missä suhteessa valkoiset suorakulmiot jakavat piirtoikkunan
+      vaakasuunnassa. Vastaavasti vakiot ~C~ ja ~D~ määräävät, missä
+      suhteessa valkoiset suorakulmiot jakavat piirtoikkunan
+      pystysuunnassa. Alla olevassa kuvassa ~A:B~ on ~1:3~ ja ~C:D~ on
+      ~3:2~.
+      #+NAME: desimaaliluku-suorakaiteet-suhteissa
+      #+BEGIN_SRC processing
+        size (500, 200);
+        final float A = 1;
+        final float B = 3;
+        final float C = 3;
+        final float D = 2;
+	noStroke ();
+
+	// yhteisen kulmapisteen koordinaatit
+        final float X = A * width / (A + B);
+        final float Y = C * height / (C + D);
+
+        rect (0, 0, X, Y);
+        rect (X, Y, width - X, height - Y);
+      #+END_SRC
+   6. Piirrä neliön muotoiseen ikkunaan Japanin lippu, joka skaalautuu
+      piirtoikkunan mukana. Japanin lipun leveyden ja korkeuden suhde
+      on \(3 : 2.\) Punainen ympyrä on keskellä lippua, ja ympyrän
+      halkaisija on \(\displaystyle\frac{3}{5}\) lipun
+      korkeudesta. Punaisen värin HSB-arvot ovat \((99, 85, 57).\)
+      #+NAME: desimaaliluku-japanin-lippu
+      #+BEGIN_SRC processing
+        size (400, 400);
+        final float KORKEUS = 2.0 / 3 * width;
+
+        colorMode (HSB, 100);
+        noStroke ();
+
+	// valkoinen tausta
+        fill (100);
+        rect (0, 0, width, KORKEUS);
+
+	// punainen ympyrä
+        fill (99, 85, 57);
+        final float HALKAISIJA = KORKEUS / 5 * 3;
+        ellipse (width / 2.0, KORKEUS / 2.0, HALKAISIJA, HALKAISIJA);
+      #+END_SRC
+   7. Piirrä alla oleva kuva, joka skaalautuu piirtoikkunan
+      mukana. Ohjelmassa määritelty vakio ~P~ määrää, kuinka monta
+      prosenttia sinisen kolmion korkeus on piirtoikkunan
+      korkeudesta. Kuvassa vakion ~P~ arvo on 20. Sinisen värin
+      HSB-arvot ovat \((62, 100, 100).\)
+      #+NAME: desimaaliluku-oja
+      #+BEGIN_SRC processing
+        size (400, 300);
+        final float P = 20;
+
+        colorMode (HSB, 100);
+        noStroke ();
+        background (0);
+
+        // valkoinen kolmio
+        fill (100);
+        triangle (0, 0, width, 0, width / 2.0, height);
+
+        // sinisen kolmion väri
+        fill (62, 100, 100);
+
+        // vakio K on se osuus (desimaalilukuna, jonka arvo on vähintään 0 ja
+        // korkeintaan 1) valkoisen kolmion korkeudesta, joka pysyy valkoisena
+        final float K = 1 - P / 100;
+
+        // sinisen kolmion vasemman yläkulman koordinaatit
+        final float X = K * width / 2.0;
+        final float Y = K * height;
+
+        // itse kolmio
+        triangle (X, Y, width / 2.0, height, width - X, Y);
+      #+END_SRC
+** Ratkaisuja
+   1. 
+      a) 
+	  #+BEGIN_SRC processing :exports both
+            size (200, 200);
+            final float SIVU = width / 3.0;
+            rect (0, 0, SIVU, SIVU);
+	  #+END_SRC
+      b) 
+	 #+BEGIN_SRC processing :exports both
+           size (200, 200);
+           final float LEVEYS = width / 2.0;
+           final float KORKEUS = 0.76 * width;
+           rect (0, 0, LEVEYS, KORKEUS);
+	 #+END_SRC
+      c) 
+	 #+BEGIN_SRC processing :exports both
+           size (200, 200);
+           final float SADE = width / 7.0 * 2;
+           final float HALKAISIJA = 2 * SADE;
+
+           ellipse (SADE, SADE, HALKAISIJA, HALKAISIJA);
+	 #+END_SRC
+   2. 
+      #+BEGIN_SRC processing :noweb yes :exports code
+      <<desimaaliluku-pacman>>
+      #+END_SRC
+   3. 
+      a) 
+          #+BEGIN_SRC processing :noweb yes :exports code
+	  <<desimaaliluku-ympyrat-paallekkain>>
+	  #+END_SRC
+      b) 
+          #+BEGIN_SRC processing :noweb yes :exports code
+	  <<desimaaliluku-ympyrat-vierekkain>>
+	  #+END_SRC
+      c) 
+          #+BEGIN_SRC processing :noweb yes :exports code
+	  <<desimaaliluku-ellipsit>>
+	  #+END_SRC
+      d) 
+          #+BEGIN_SRC processing :noweb yes :exports code
+	  <<desimaaliluku-nelja-ympyraa>>
+	  #+END_SRC
+   4. 
+      #+BEGIN_SRC processing :noweb yes :exports code
+      <<desimaaliluku-vihrea-palkki>>
+      #+END_SRC
+   5. 
+      #+BEGIN_SRC processing :noweb yes :exports code
+      <<desimaaliluku-suorakaiteet-suhteissa>>
+      #+END_SRC
+   6. 
+      #+BEGIN_SRC processing :noweb yes :exports code
+      <<desimaaliluku-japanin-lippu>>
+      #+END_SRC
+   7. Alla on kaksi esimerkkiratkaisua tehtävään. Ensimmäisessä
+      piirretään valkoiselle pohjalle sininen suorakulmio ja sen
+      osittain peittävät mustat kolmiot.
+      #+BEGIN_SRC processing :exports both
+        size (600, 200);
+        final float P = 20;
+        final float SININEN_KORKEUS = P / 100 * height;
+
+        colorMode (HSB, 100);
+        background (100);
+        noStroke ();
+
+	// sininen suorakulmio
+        fill (62, 100, 100);
+        rect (0, height - SININEN_KORKEUS, width, SININEN_KORKEUS);
+
+	// kaksi mustaa kolmiota
+        final float KESKI_X = width / 2.0; // keskikohdan x-koordinaatti
+        fill (0);
+        triangle (0, 0, 0, height, KESKI_X, height);
+        triangle (KESKI_X, height, width, height, width, 0);
+      #+END_SRC
+      Toisessa ratkaisussa valkoinen alue ja sen osittain peittävä
+      sininen alue piirretään kolmioina mustalle taustalle.
+      #+BEGIN_SRC processing :noweb yes :exports code
+      <<desimaaliluku-oja>>
+      #+END_SRC

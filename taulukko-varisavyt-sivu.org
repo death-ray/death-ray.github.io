@@ -1,0 +1,7 @@
+#+INCLUDE: ohjelmointi-animaatiosivun-yhteiset-asetukset.org
+
+#+BEGIN_SRC processing :noweb yes
+<<taulukko-varisavyt>>
+#+END_SRC
+
+#+INCLUDE: taulukko-varisavyt.org

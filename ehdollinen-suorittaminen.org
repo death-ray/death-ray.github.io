@@ -1,0 +1,247 @@
+#+INCLUDE: ohjelmointi-kappaleiden-yhteiset-asetukset.org
+
+* Ehdollinen suorittaminen
+** {{{example}}}
+   #+NAME: ehdollinen-kolmio-suunta-runko
+   #+BEGIN_SRC processing :exports none
+     // jos leveys on suurempi kuin korkeus
+     if (width > height)
+       triangle (0, 0, width, height / 2.0, 0, height); // kolmio oikealle
+     else // muussa tapauksessa
+       triangle (0, 0, width, 0, width / 2.0, height); // kolmio alas
+   #+END_SRC
+
+   Haluamme kirjoittaa ohjelman, joka toimii seuraavasti.
+   - Jos piirtoikkunan leveys on suurempi kuin piirtoikkunan korkeus,
+     piirretään \ldquo{}oikealla osoittava\rdquo{} kolmio.
+     #+NAME: ehdollinen-kolmio-oikealle
+     #+BEGIN_SRC processing :noweb yes :exports results
+     size (300, 100);
+
+     <<ehdollinen-kolmio-suunta-runko>>
+     #+END_SRC
+   - Muussa tapauksessa piirretään \ldquo{}alas osoittava\rdquo{}
+     kolmio.
+     #+BEGIN_SRC processing :noweb yes :exports results
+     size (100, 200);
+
+     <<ehdollinen-kolmio-suunta-runko>>
+     #+END_SRC
+
+   Ohjelma toimii siis eri tavoin eri tilanteissa. Tämä voidaan
+   ohjelmoida /ehdollisen suorittamisen/ avulla. Ehdollisessa
+   suorittamisessa käytetään Processing-kielen varattuja sanoja ~if~
+   (jos) sekä ~else~ (muutoin).
+
+   #+BEGIN_SRC processing :noweb yes :exports code
+     <<ehdollinen-kolmio-oikealle>>
+   #+END_SRC
+** ~if-else~ -rakenne     
+   #+BEGIN_QUOTE
+   ~if-else~ -rakenteessa on
+   1. ~ehto~, joka määrää mikä lauseke suoritetaan
+   2. lauseke, joka suoritetaan jos ehto on tosi
+   3. lauseke, joka suoritetaan jos ehto ei ole tosi.
+   #+BEGIN_EXAMPLE
+     if (ehto)
+       lauseke suoritetaan jos ehto tosi;
+     else
+       lauseke suoritetaan jos ehto ei tosi;
+   #+END_EXAMPLE
+   #+END_QUOTE
+
+   Huomaa, että
+   - ~ehto~ kirjoitetaan sulkujen sisään
+   - ~if~-rivin lopussa ei ole puolipistettä
+   - ~else~-rivin lopussa ei ole puolipistettä.
+
+   Yleensä lausekerivit sisennetään, jotta nähdään mihin lausekkeeseen
+   ehto vaikuttaa. Processing-editori sisentää lausekkeet
+   valikosta ~Edit~ \(\rightarrow\) ~Autoformat~ tai suoraan
+   näppäinkomennolla ~Ctrl+t~.
+** Lukujen vertaileminen
+   Jos ~if-else~ -rakenteen ehdossa vertaillaan lukuja, tarvitaan
+   lukujen vertailuoperaattoreita.
+
+   | ehtolauseke | merkitys                                  |
+   |-------------+-------------------------------------------|
+   | ~a < b~     | onko ~a~ pienempi kuin ~b~                |
+   | ~a <= b~    | onko ~a~ pienempi tai yhtä suuri kuin ~b~ |
+   | ~a > b~     | onko ~a~ suurempi kuin ~b~                |
+   | ~a >= b~    | onko ~a~ suurempi tai yhtä suuri kuin ~b~ |
+   | ~a == b~    | onko ~a~ yhtä suuri kuin ~b~              |
+   | ~a != b~    | onko ~a~ eri suuri kuin ~b~               |
+
+   Yllättävintä on yhtäsuuruuden testaaminen.
+   #+BEGIN_QUOTE
+   Lukujen ~a~ ja ~b~ yhtäsuuruus testataan vertailuoperaattorilla
+   ~==~, jossa on kaksi yhtäsuuruusmerkkiä peräkkäin.
+   #+END_QUOTE
+** {{{example}}}
+   Piirretään neliön muotoiseen piirtoikkunaan ympyrä tai nelikulmio
+   riippuen vakion ~P~ arvosta. Jos ~P~ on alle 95 piirretään ympyrä,
+   muuten nelikulmio.
+
+   #+NAME: ehdollinen-ympyra-nelio-runko
+   #+BEGIN_SRC processing :exports none
+     if (P < 95)
+       ellipse (100, 100, 100, 100);
+     else
+       rect (50, 50, 100, 100);
+   #+END_SRC
+   Ensin vakio on suurempi kuin 95, joten piirretään nelikulmio.
+   #+BEGIN_SRC processing :noweb yes :exports both
+     size (250, 250);
+     final float P = 96;
+
+     <<ehdollinen-ympyra-nelio-runko>>
+   #+END_SRC
+
+   Kun vakion arvoa lasketaan, piirretään ympyrä.
+   #+BEGIN_SRC processing :noweb yes :exports both
+     size (250, 250);
+     final float P = 93;
+
+     <<ehdollinen-ympyra-nelio-runko>>
+   #+END_SRC
+** Pelkkä ~if~-rakenne
+   Seuraavassa esimerkissä piirretään neliö neliön muotoiseen
+   piirtoikkunan keskelle. Piirtoikkunan vasempaan yläkulmaan
+   piirretään toinen samankokoinen neliö, jos kuvassa on sille
+   tilaa. Neliön sivun pituuden määrää vakio ~SIVU~.
+   
+   #+NAME: ehdollinen-neliot-runko
+   #+BEGIN_SRC processing :exports none
+     // keskelle piirrettävän neliön koordinaatit (x- ja y-koordinaatti sama)
+     final float X = width / 2.0 - SIVU / 2.0;
+     rect (X, X, SIVU, SIVU);
+
+     if (X >= SIVU)
+       rect (0, 0, SIVU, SIVU);
+
+   #+END_SRC
+
+   #+BEGIN_SRC processing :noweb yes :exports both
+     size (200, 200);
+     final float SIVU = 60;
+
+     <<ehdollinen-neliot-runko>>
+   #+END_SRC
+
+   Kun neliön sivun pituutta kasvatetaan, toista neliötä ei enää
+   piirretä.
+
+   #+BEGIN_SRC processing :noweb yes :exports both
+     size (200, 200);
+     final float SIVU = 80;
+
+     <<ehdollinen-neliot-runko>>
+   #+END_SRC
+
+   #+BEGIN_QUOTE
+   ~if~-rakenteessa on
+   1. ~ehto~, joka määrää suoritetaanko seuraava lauseke
+   2. lauseke, joka suoritetaan jos ehto on tosi
+   #+BEGIN_EXAMPLE
+     if (ehto)
+       lauseke suoritetaan jos ehto tosi;
+   #+END_EXAMPLE
+   #+END_QUOTE
+** Tehtäviä
+   1. Kirjoita ohjelma, joka asettaa piirtoikkunan taustan väriksi
+      vihreä värin, jos vakion ~P~ arvo on vähintään 100. Muussa
+      tapauksessa avataan vain harmaa piirtoikkuna. Testaa ohjelmasi
+      toimivuus muuttamalla vakion ~P~ arvoa.
+   2. Kirjoita ohjelma, joka piirtää neliön muotoisen piirtoikkunan
+      keskelle mahdollisimman suuren ympyrän. Jos vakion ~P~ arvo on
+      vähintään 100, ympyrä on vihreä. Muussa tapauksessa ympyrä on
+      oranssi. Testaa ohjelmasi toimivuus muuttamalla vakion ~P~
+      arvoa.
+   3. Kirjoita ohjelma, joka asettaa piirtoikkunan taustaväriksi
+      valkoisen, mikäli piirtoikkuna on neliön muotoinen. Muussa
+      tapauksessa taustaväriksi asetetaan musta. Testaa ohjelmasi
+      toimivuus muuttamalla piirtoikkunan kokoa.
+   4. Kirjoita ohjelma, joka piirtää piirtoikkunan vasempaan
+      yläkulmaan \(100\times 100\)-kokoisen neliön, jos ikkunan leveys
+      on suurempi kuin korkeus. Muussa tapauksessa piirtoikkunan
+      vasempaan yläkulmaan piirretään ympyrä, jonka halkaisija
+      on 100. Voi olettaa, että piirtoikkunan leveys ja korkeus ovat
+      vähintään 100. Testaa ohjelmasi toimivuus muuttamalla
+      piirtoikkunan leveyttä ja korkeutta.
+   5. Kirjoita ohjelma, joka piirtää piirtoikkunan vasempaan
+      yläkulmaan neliön. Neliön sivun pituus on vakio ~SIVU~. Jos
+      piirretyn neliön viereen mahtuu toinen samankokoinen neliö, niin
+      myös toinen neliö piirretään. Testaa ohjelmasi toimivuus
+      muuttamalla piirtoikkunan leveyttä ja vakion ~SIVU~
+      suuruutta. Voit olettaa, että piirtoikkunan leveys ja korkeus
+      ovat molemmat vähintään yhtä suuria kuin ~SIVU~.
+   6. Kirjoita ohjelma, joka piirtää piirtoikkunan vasempaan reunaan
+      ympyrän, jonka halkaisija on piirtoikkunan korkeus. Ohjelma
+      piirtää myös piirtoikkunan oikeaan reunaan samanlaisen ympyrän,
+      mikäli jälkimmäinen ympyrä ei mene ensin piirretyn
+      päälle. Testaa ohjelmasi toimivuus muuttamalla piirtoikkunan
+      leveyttä ja korkeutta. Voit olettaa, että piirtoikkunan leveys
+      on korkeutta suurempi.
+** Ratkaisuja
+   1. 
+      #+BEGIN_SRC processing :exports both
+        size (300, 300);
+        final float P = 101;
+
+        colorMode (HSB, 100);
+
+        if (P >= 100)
+          background (44, 66, 71);
+      #+END_SRC
+   2. 
+      #+BEGIN_SRC processing :exports both
+        size (300, 300);
+        final float P = 101;
+        colorMode (HSB, 100);
+        noStroke ();
+
+        if (P >= 100)
+          fill (21, 100, 71);
+        else
+          fill (6, 100, 100);
+
+        final float SADE = width / 2.0;
+        ellipse (SADE, SADE, width, width);
+      #+END_SRC
+   3. 
+      #+BEGIN_SRC processing :exports both
+        size (300, 300);
+        colorMode (HSB, 100);
+
+        if (width == height)
+          background (100);
+        else
+          background (0);
+      #+END_SRC
+   4. 
+      #+BEGIN_SRC processing :exports both
+        size (300, 200);
+
+        if (width > height)
+          rect (0, 0, 100, 100);
+        else
+          ellipse (50, 50, 100, 100);
+      #+END_SRC
+   5. 
+      #+BEGIN_SRC processing :exports both
+        size (300, 200);
+        final float SIVU = 180;
+        rect (0, 0, SIVU, SIVU);
+        if (width >= 2 * SIVU)
+          rect (SIVU, 0, SIVU, SIVU);
+      #+END_SRC
+   6. 
+      #+BEGIN_SRC processing :exports both
+        size (600, 200);
+        final float SADE = height / 2.0;
+        ellipse (SADE, SADE, height, height);
+
+        if (width >= 2 * height)
+          ellipse (width - SADE, SADE, height, height);
+
+      #+END_SRC

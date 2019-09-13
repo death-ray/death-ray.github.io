@@ -1,0 +1,7 @@
+#+INCLUDE: ohjelmointi-animaatiosivun-yhteiset-asetukset.org
+
+#+BEGIN_SRC processing :noweb yes
+<<funktion-paluuarvo-ympyrat-leikkaavat>>
+#+END_SRC
+
+#+INCLUDE: funktion-paluuarvo-ympyrat-leikkaavat.org

@@ -1,0 +1,34 @@
+#+NAME: satunnaisuus-ympyrajahti
+#+BEGIN_SRC processing :exports none
+  final int HALKAISIJA = 30;
+  final float SADE = HALKAISIJA / 2.0;
+  float x, y; // ympyrän keskipisteen koordinaatit
+
+  // arvotaan uusi kohta ympyrälle
+  void uusiKohta ()
+  {
+    x = random (SADE, width - SADE);
+    y = random (SADE, height - SADE);
+  }
+
+  void setup ()
+  {
+    size (600, 400);
+    colorMode (HSB, 100);
+    fill (100);
+
+    uusiKohta (); // satunnainen kohta ohjelman alussa
+  }
+
+  void draw ()
+  {
+    background (0);
+    ellipse (x, y, HALKAISIJA, HALKAISIJA);
+  }
+
+  void mousePressed ()
+  {
+    if (dist (x, y, mouseX, mouseY) <= SADE)
+      uusiKohta ();
+  }
+#+END_SRC

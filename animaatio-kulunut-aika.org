@@ -1,0 +1,21 @@
+#+NAME: animaatio-kulunut-aika
+#+BEGIN_SRC processing :exports none
+  int n;
+
+  void setup ()
+  {
+    size (400, 400);
+    textAlign (CENTER, CENTER);
+    colorMode (HSB, 100);
+    textSize (30);
+    frameRate (1);
+    n = 0;
+  }
+
+  void draw ()
+  {
+    background (0);
+    text (n, width / 2.0, height / 2.0);
+    n++;
+  }
+#+END_SRC

@@ -1,0 +1,7 @@
+#+INCLUDE: ohjelmointi-animaatiosivun-yhteiset-asetukset.org
+
+#+BEGIN_SRC processing :noweb yes
+<<taulukko-ympyrat-savy>>
+#+END_SRC
+
+#+INCLUDE: taulukko-ympyrat-savy.org

@@ -1,0 +1,7 @@
+#+INCLUDE: ohjelmointi-animaatiosivun-yhteiset-asetukset.org
+
+#+BEGIN_SRC processing :noweb yes
+<<animaatio-varisavy>>
+#+END_SRC
+
+#+INCLUDE: animaatio-varisavy.org

@@ -1,0 +1,24 @@
+#+NAME: satunnaisuus-janat
+#+BEGIN_SRC processing :exports none
+  void setup ()
+  {
+    size (600, 600);
+    colorMode (HSB, 100);
+
+    // puoli piirtoa sekunnissa, eli yksi piirto kahdessa sekunnissa
+    frameRate (0.5); 
+
+    background (0);
+  }
+
+  void draw ()
+  {
+    background (0);
+    int janoja = floor (random (1, 31)); // korkeintaan 30 janaa
+    for (int n = 1; n <= janoja; n++)
+    {
+      stroke (random (100), 100, 100); // satunnainen viivan värisävy
+      line (random (width), 0, random (width), height);
+    }
+  }
+#+END_SRC

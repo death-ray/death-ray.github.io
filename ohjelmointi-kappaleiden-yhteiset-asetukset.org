@@ -1,0 +1,8 @@
+#+OPTIONS: toc:nil num:nil
+#+HTML_HEAD_EXTRA: <link rel="additional stylesheet" type="text/css" href="ohjelmointi.css" />
+#+macro: example Esimerkki {{{n}}}
+#+NAME: asymptote-asetukset
+#+BEGIN_SRC asymptote :exports none
+  usepackage ("inputenc", "utf8");
+  defaultpen (fontsize (14));
+#+END_SRC

@@ -1,0 +1,357 @@
+#+INCLUDE: ohjelmointi-kappaleiden-yhteiset-asetukset.org
+
+* Sisäkkäiset silmukat
+** {{{example}}}
+   Piirretään alla oleva kuva, jossa on lukuja 40 pikselin välein.
+   Kukin luku kertoo, kuinka monentena se on piirretty.
+   #+NAME: sisakkaiset-silmukat-luvut-sarakkeittain
+   #+BEGIN_SRC processing
+     size (400, 400);
+     colorMode (HSB, 100);
+     textAlign (CENTER, CENTER);
+     textSize (16);
+     background (0);
+     fill (100);
+
+     final float ASKEL = 40;
+     int luku = 1;
+
+     for (float x = ASKEL; x < width; x += ASKEL)
+       for (float y = ASKEL; y < height; y += ASKEL)
+       {
+         text (luku, x, y);
+         luku++;
+       }
+   #+END_SRC
+
+   Ohjelma voidaan kirjoittaa kahden /sisäkkäisen silmukan/ avulla.
+
+   #+BEGIN_SRC processing :exports code :noweb yes
+   <<sisakkaiset-silmukat-luvut-sarakkeittain>>
+   #+END_SRC
+
+   Mietitäänpä, miten ohjelma toimii.
+   1. Ensin /ulommassa silmukassa/ muuttujan ~x~ arvoksi asetetaan
+      ~ASKEL~ eli 40.
+   2. Tämän jälkeen /sisemmän silmukan/ alussa muuttujan ~y~ arvoksi
+      asetetaan myös ~ASKEL~ eli 40.
+   3. Seuraavaksi suoritetaan sisempää silmukkaa niin kauan, kun ~y~
+      on pienempi kuin ~height~. Tässä sisemmässä silmukassa muuttujan
+      ~x~ arvoa ei muuteta. Niinpä muuttujan ~x~ arvo on koko
+      ajan 40. Sisemmässä silmukassa piirretään siis ensin
+      numerotaulukon ensimmäinen pystyrivi.
+   4. Kun sisemmästä silmukasta poistutaan, muuttujan ~x~ uudeksi
+      arvoksi tulee 80.
+   5. Tämän jälkeen mennään uudestaan sisempään silmukkaan, jossa ~y~
+      saa taas eri arvot. Näin piirretään siis toinen pystyrivi.
+
+   Ohjelmassa luvut piirretään siis pystyrivi kerrallaan.
+** {{{example}}}
+   Processing-ohjelman piirtoikkuna koostuu /pikseleistä/, joista
+   kukin on pieni neliö näytöllä. Jos piirtoikkunan koko olisi
+   \(10\times 10\), suurennettuna se näyttäisi alla olevan kuvan
+   mukaiselta. Esimerkiksi koordinaatit \((0, 0)\) viittaavat
+   vasemmassa yläkulmassa olevaan pieneen neliöön.
+   #+NAME: sisakkaiset-silmukat-pikselit
+   #+BEGIN_SRC asymptote :file sisakkaiset-silmukat-pikselit.svg
+     size (12cm, 0);
+     int N = 10;
+
+     defaultpen (dotted + fontsize (18));
+
+     for (int n = 0; n <= N; ++n)
+       {
+         draw ((0, n) -- (N, n));
+         draw ((n, 0) -- (n, N));
+         if (n != N)
+           {
+             real pos = n + .5;
+             label ((string) n, (-1, N - pos));
+             label ((string) n, (pos, N + 1));
+           }
+       }
+   #+END_SRC
+
+   #+ATTR_HTML: :id pixel-explanation-img
+   #+RESULTS: sisakkaiset-silmukat-pikselit
+   [[file:sisakkaiset-silmukat-pikselit.svg]]
+
+   Alla oleva ohjelmakoodi piirtää kuvan, jossa kunkin pikselin
+   värisävyn määrittää \(x\)-koordinaatti ja kirkkauden
+   \(y\)-koordinaatti.
+
+   #+BEGIN_SRC processing :exports both
+     size (200, 200);
+     colorMode (HSB, 100);
+
+     for (int x = 0; x < width; x++)
+       for (int y = 0; y < height; y++)
+       {
+         stroke (x / 2.0, 100, y / 2.0);
+         point (x, y);
+       }
+
+   #+END_SRC
+** {{{example}}}
+   Kirjoitetaan ohjelma, joka piirtää valkoisia ympyröitä satunnaisiin
+   piirtoikkunan kohtiin ja valkoiset janat kaikkien ympyröiden
+   keskipisteiden välille.
+   
+   Ohjelma voidaan piirtää kahdella sisäkkäisellä silmukalla alla
+   olevassa kuvassa havainnollistetun idean mukaisesti. Kuvitellaan,
+   että ympyrät ovat rivissä, taulukon ensimmäinen ympyrä vasemmalla.
+   1. Ensimmäisestä, punaisella piirretystä ympyrästä piirretään
+      yhdistävä jana 2., 3. jne. ympyrään.
+   2. Toisesta, keltaisella piirretystä ympyrästä piirretään yhdistävä
+      jana 3., 4. jne. ympyrään. Ensimmäiseen ympyrään ei tarvitse
+      enää piirtää janaa, koska se on jo piirretty.
+   
+   Niinpä ympyrästä, jonka indeksi on ~i~ piirretään janat ympyröihin,
+   joiden indeksit alkavat luvusta ~(i + 1)~.
+
+   #+NAME: sisakkaiset-silmukat-taulukon-parit
+   #+BEGIN_SRC asymptote :file sisakkaiset-silmukat-taulukon-parit.svg
+     size (20cm, 0);
+     int N = 5;
+
+     for (int i = 0; i < N; ++i)
+       {
+         pair P = (i, 0);
+         pen p = hsv (i / N * 360, 1, 1) + linewidth (2);
+         for (int j = i + 1; j < N; ++j)
+           {
+             pair Q = (j, 0);
+             int sign = (-1)^(i % 2);
+             draw (P{sign * down} :: {right}(midpoint (P -- Q) + (0, -sign / (i + 2))){right} :: {sign * up}Q, p);
+           }
+         fill (shift ((i, 0)) * scale (.2) * unitcircle, p);
+       }
+
+     shipout (bbox (xmargin = 10, black, Fill));
+   #+END_SRC
+   
+   #+BEGIN_SRC processing :exports both
+     size (600, 400);
+     colorMode (HSB, 100);
+     background (0);
+     fill (100);
+     stroke (100);
+
+     final int N = 10; // ympyröiden lukumäärä
+     final float D = 30; // ympyröiden halkaisija
+     final float R = D / 2; // ympyröiden säde
+
+     float[] xt, yt; // ympyröiden keskipisteet
+
+     // varataan tila taulukoille
+     xt = new float [N];
+     yt = new float [N];
+     
+     // satunnaiset ympyröiden keskipisteet
+     for (int i = 0; i < N; i++)
+     {
+       xt [i] = random (R, width - R);
+       yt [i] = random (R, height - R);
+     }
+
+     // käydään kaikki keskipisteet läpi
+     for (int i = 0; i < N; i++)
+     {
+       ellipse (xt [i], yt [i], D, D); // piirretään ympyrä
+  
+       // piirretään viivat keskipisteiden välille
+       for (int j = i + 1; j < N; j++)
+         line (xt [i], yt [i], xt [j], yt [j]);
+     }
+
+   #+END_SRC
+** Tehtäviä
+   1. Muuta tämän kappaleen ensimmäisen esimerkin ohjelmakoodia siten,
+      että se piirtää alla olevan kuvan.
+      #+NAME: sisakkaiset-silmukat-luvut-riveittain
+      #+BEGIN_SRC processing
+        size (400, 400);
+        colorMode (HSB, 100);
+        textAlign (CENTER, CENTER);
+        textSize (16);
+        background (0);
+        fill (100);
+
+        final float ASKEL = 40;
+        int luku = 1;
+
+        for (float y = ASKEL; y < height; y += ASKEL)
+          for (float x = ASKEL; x < width; x += ASKEL)
+          {
+            text (luku, x, y);
+            luku++;
+          }
+      #+END_SRC
+   2. Piirrä alla oleva kuva, jossa on ympyröitä \(400 \times
+      400\)-kokoisessa piirtoikkunassa. Kunkin ympyrän halkaisija
+      on 20.
+      #+NAME: sisakkaiset-silmukat-valkoiset-ympyrat
+      #+BEGIN_SRC processing
+        size (400, 400);
+
+        final float D = 20;
+        final float R = D / 2;
+
+        for (float x = R; x < width; x += D)
+          for (float y = R; y < height; y += D)
+            ellipse (x, y, D, D);
+      #+END_SRC
+   3. Alla olevassa kuvassa kunkin pikselin harmaasävyarvo on
+      satunnainen. Kirjoita ohjelma, joka piirtää vastaavan kuvan.
+      #+NAME: sisakkaiset-silmukat-satunnaiset-pikselit
+      #+BEGIN_SRC processing
+        size (200, 200);
+        colorMode (HSB, 100);
+
+        for (int x = 0; x < width; x++)
+          for (int y = 0; y < height; y++)
+          {
+            stroke (random (100));
+            point (x, y);
+          }
+      #+END_SRC
+   4. Piirrä alla oleva kuva. Piirtoikkunan koko on \(400 \times 400\)
+      ja lukujen välimatka vaaka- ja pystysuunnassa 40.
+      #+NAME: sisakkaiset-silmukat-alakolmio
+      #+BEGIN_SRC processing
+        size (400, 400);
+        colorMode (HSB, 100);
+        background (0);
+        textSize (16);
+        textAlign (CENTER, CENTER);
+        fill (100);
+
+        final int VALI = 40;
+
+        int luku = 1;
+
+        for (float x = VALI; x < width; x += VALI)
+          for (float y = x; y < height; y += VALI)
+          {
+            text (luku, x, y);
+            luku++;
+          }
+
+      #+END_SRC
+   5. Alla olevassa kuvassa on kolme ympyrää vakioilla määrätyissä
+      koordinaateissa ~(X1, Y1)~, ~(X2, Y2)~ sekä ~(X3, Y3)~. Kukin
+      piirtoikkunan pikseli on piirretty eri värillä sen mukaan, mikä
+      ympyrä on pistettä lähinnä. Kirjoita ohjelma, joka piirtää
+      vastaavan kuvan. Pikselit, jotka ovat yhtä kaukana ympyröistä
+      voidaan ohjelmassa värittää millä tahansa värillä.
+      #+NAME: sisakkaiset-silmukat-voronoi
+      #+BEGIN_SRC processing
+        size (200, 200);
+        colorMode (HSB, 100);
+
+        // ympyröiden keskipisteet
+        final float X1 = 70, Y1 = 90;
+        final float X2 = 180, Y2 = 20;
+        final float X3 = 150, Y3 = 170;
+
+        for (int x = 0; x < width; x++)
+          for (int y = 0; y < height; y++)
+          {
+            // etäisyydet ympyröiden keskipisteisiin
+            float et1 = dist (x, y, X1, Y1);
+            float et2 = dist (x, y, X2, Y2);
+            float et3 = dist (x, y, X3, Y3);
+
+            float savy;
+            // onko et1 pienin...
+            if (et1 <= et2 && et1 <= et3)
+              savy = 0;
+            else if (et2 <= et3) // ... ei ole, pienin on joko et2 tai et3
+              savy = 35;
+            else
+              savy = 65;
+            stroke (savy, 100, 100);
+
+            point (x, y);
+          }
+
+        final float D = 10;
+        ellipse (X1, Y1, D, D);
+        ellipse (X2, Y2, D, D);
+        ellipse (X3, Y3, D, D);
+      #+END_SRC
+   6. Kirjoita ohjelma, joka piirtää alla olevaa kuvaa vastaavan
+      kuvan.
+      - Ylärivissä on ~N~ ympyrää, missä ~N~ on vakio. Alarivissä on
+        yhtä monta ympyrää. Alla olevassa kuvassa vakion ~N~ arvo
+        on 7.
+      - Ympyröiden \(x\)-koordinaatit ovat satunnaisia, mutta kaikki
+        ympyrät ovat kokonaisuudessaan piirtoikkunan sisällä.
+      - Kaikkien ylärivin ympyröiden keskipisteistä on piirretty janat
+        kaikkien alarivin ympyröiden keskipisteisiin.
+      Käytä ohjelmassasi kaikkien ympyröiden keskipisteiden
+      koordinaateille taulukoita ~xt~ ja ~yt~, joissa molemmissa
+      ensimmäiset ~N~ lukua ovat ylärivin ympyröiden koordinaatteja ja
+      loput ~N~ lukua alarivin ympyröiden koordinaatteja.
+      #+NAME: sisakkaiset-silmukat-kaksijakoinen
+      #+BEGIN_SRC processing
+        size (600, 400);
+        colorMode (HSB, 100);
+        background (0);
+        fill (100);
+        stroke (100);
+
+        final float D = 20; // ympyröiden halkaisija
+        final float R = D / 2; // säde
+
+        final int N = 7; // yksittäisessä rivissä olevien ympyröiden lkm
+        final int M = 2 * N; // kaikkien ympyröiden lkm
+
+        // ympyröiden keskipisteiden koordinaatit
+        float[] xt, yt;
+        xt = new float [M];
+        yt = new float [M];
+
+        // arvotaan koordinaatit ja piirretään ympyrät
+        for (int i = 0; i < M; i++)
+        {
+          xt [i] = random (R, width - R);
+          if (i < N)
+            yt [i] = R; // ylärivin ympyrä
+          else
+            yt [i] = height - R; // alarivin ympyrä
+
+          ellipse (xt [i], yt [i], D, D);
+        }
+
+        // piirretään janat
+        for (int i = 0; i < N; i++)
+          for (int j = N; j < M; j++)
+            line (xt [i], yt [i], xt [j], yt [j]);
+      #+END_SRC
+** Ratkaisuja
+   1. 
+       #+BEGIN_SRC processing :noweb yes :exports code
+       <<sisakkaiset-silmukat-luvut-riveittain>>
+       #+END_SRC
+   2. 
+       #+BEGIN_SRC processing :noweb yes :exports code
+       <<sisakkaiset-silmukat-valkoiset-ympyrat>>
+       #+END_SRC
+   3. 
+       #+BEGIN_SRC processing :noweb yes :exports code
+       <<sisakkaiset-silmukat-satunnaiset-pikselit>>
+       #+END_SRC
+   4. 
+       #+BEGIN_SRC processing :noweb yes :exports code
+       <<sisakkaiset-silmukat-alakolmio>>
+       #+END_SRC
+   5. 
+       #+BEGIN_SRC processing :noweb yes :exports code
+       <<sisakkaiset-silmukat-voronoi>>
+       #+END_SRC
+   6. 
+       #+BEGIN_SRC processing :noweb yes :exports code
+       <<sisakkaiset-silmukat-kaksijakoinen>>
+       #+END_SRC
+      

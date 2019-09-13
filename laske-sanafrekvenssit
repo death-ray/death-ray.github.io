@@ -1,0 +1,22 @@
+#!/bin/bash
+
+[ -z "$FREKVENSSITIEDOSTO" ] && echo "Ympäristömuuttujalla FREKVENSSITIEDOSTO ei arvoa" && exit 1;
+
+AVAINSANATIEDOSTO=avainsanat.txt
+
+awk '{ word[$1]=0 } END {for (w in word) print w}' ${AVAINSANATIEDOSTO} | paste -s -d, > ${FREKVENSSITIEDOSTO}
+
+while read KAPPALETIEDOSTO;
+do
+    cat ${KAPPALETIEDOSTO}.org | tr '[:punct:]' ' ' | tr '([])' ' ' | tr '[:digit:]' ' ' | tr -s ' ' | awk '
+  BEGIN { ORS = "," }
+  FILENAME == ARGV[1] {word[$1]=0; next}
+  {
+    for (i=1; i<=NF; i++) {
+      if ($i in word) word[$i]++
+    }
+  }
+  END {for (w in word) print word[w] ; printf "\n" }
+' ${AVAINSANATIEDOSTO} - | sed 's/,$//' >> ${FREKVENSSITIEDOSTO}
+done < kappaletiedostot.txt
+

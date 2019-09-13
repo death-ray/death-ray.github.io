@@ -1,0 +1,45 @@
+#+NAME: taulukko-pisteet
+#+BEGIN_SRC processing :exports none
+  // taulukot: x- ja y-koordinaatit, muutokset x- ja y-suunnassa yhdellä
+  // askeleella
+  float[] xt, yt, xMuutokset, yMuutokset;
+
+  // kuinka monta pistettä piirretään
+  final int PISTEITA = 2000;
+
+  void setup ()
+  {
+    size (1000, 800);
+    colorMode (HSB, 100);
+    stroke (100); // pisteiden väri
+
+    // varataan taulukoille tilat
+    xt = new float [PISTEITA];
+    yt = new float [PISTEITA];
+    xMuutokset = new float [PISTEITA];
+    yMuutokset = new float [PISTEITA];
+
+    // asetetaan alkuarvot taulukoihin
+    for (int i = 0; i < PISTEITA; i++)
+    {
+      xt [i] = random (width); // satunnainen x-koordinaatti
+      yt [i] = height; // alussa kuvan alareunassa
+      xMuutokset [i] = random (-1, 1); // muutokset x-suunnassa
+      yMuutokset [i] = random (-2, 0); // muutokset y-suunnassa
+    }
+    frameRate (20);
+  }
+
+  void draw ()
+  {
+    background (0);
+
+    // käydään kaikki pisteet läpi
+    for (int i = 0; i < PISTEITA; i++)
+    {
+      point (xt [i], yt [i]); // piirretään piste
+      xt [i] = xt [i] + xMuutokset [i]; // siirretään x-suunnassa
+      yt [i] = yt [i] + yMuutokset [i]; // siirretään y-suunnassa
+    }
+  }
+#+END_SRC

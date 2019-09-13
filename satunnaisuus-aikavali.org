@@ -1,0 +1,48 @@
+#+NAME: satunnaisuus-aikavali
+#+BEGIN_SRC processing :exports none
+  int aikavali; // kuinka pitkä aikaväli seuraavaan piirtokertaan (sekunteina)
+  int kulunut; // kuinka kauan kulunut edellisestä piirrosta (sekunteina)
+
+  void setup ()
+  {
+    size (600, 400);
+    colorMode (HSB, 100);
+    textAlign (CENTER, CENTER);
+    textSize (14);
+    frameRate (1);
+    background (0);
+
+    aikavali = 0; // ohjelman alussa piirretään heti kerran
+    kulunut = 0;
+  }
+
+  void draw ()
+  {
+    kulunut++; // yksi sekunti on taas kulunut
+
+    // piirretään uudestaan, jos on kulunut riittävän kauan
+    if (kulunut >= aikavali) 
+    {
+      background (0);
+
+      // satunnainen piirtokohta
+      float x = random (width);
+      float y = random (height);
+
+      // valkoinen ympyrä
+      fill (100);
+      final int HALKAISIJA = 20;
+      ellipse (x, y, HALKAISIJA, HALKAISIJA);
+
+      // uusi satunnainan aikaväli seuraavaan piirtoon      
+      aikavali = floor (random (1, 4)); 
+
+      // aikaväli mustalla tekstillä
+      fill (0);
+      text (aikavali, x, y);
+
+      // uudesta aikavälistä ei ole vielä kulunut yhtään sekuntia
+      kulunut = 0;
+    }
+  }
+#+END_SRC

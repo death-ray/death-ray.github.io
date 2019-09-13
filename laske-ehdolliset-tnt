@@ -1,0 +1,7 @@
+#!/bin/bash
+
+export FREKVENSSITIEDOSTO=avainsana-frekvenssit.csv
+
+./laske-sanafrekvenssit && Rscript ehdollisetSanaTnt.R
+
+rm ${FREKVENSSITIEDOSTO}

@@ -1,0 +1,391 @@
+#+INCLUDE: ohjelmointi-kappaleiden-yhteiset-asetukset.org
+
+* Vakio
+** Vakio
+   Edellisessä kappaleissa kaikki koordinaatit on laskettu käsin ennen
+   kuvien piirtämisessä. Yleensä ohjelmoinnissa ei tehdä näin, vaan
+   koordinaatit lasketaan ohjelmassa annetuista tiedoista. Annetut
+   tiedot voidaan tallentaa /vakioihin/.
+
+   #+BEGIN_QUOTE
+   Tietokoneohjelman /vakio/ on nimetty muistipaikka, johon voidaan
+   tallentaa mm. lukuja. Vakion arvo ei muutu ohjelman suorituksen
+   aikana.
+   #+END_QUOTE
+
+   Alla olevassa esimerkissä määritellään vakio ~SIVU~, jonka arvoksi
+   asetetaan 128. Vakion /tyyppi/ on ~float~, joka tulee englannin
+   kielen termista /floating point number/. Tällaisen vakion arvoksi
+   voidaan asettaa desimaaliluku ja siten myös kokonaisluku. Sana
+   ~final~ (\ldquo{}lopullinen\rdquo{}) tarkoittaa, että kyseessä on
+   vakio. Kahden luvun tulo lasketaan ohjelmassa
+   /kertolukuoperaattorin/ ~*~ avulla. Ohjelma piirtää kolme neliötä,
+   joiden sivun pituus on ~SIVU~. Vierekkäiset neliöt koskevat
+   toisiinsa yhdessä kulmapisteessä.
+
+   #+NAME: nelioita-vakiolla-runko
+   #+BEGIN_SRC processing :exports none
+     colorMode (HSB, 100);
+     background (59, 21, 87);
+     fill (58, 98, 59);
+
+     rect (0, 0, SIVU, SIVU); // neliö ikkunan vasemmassa yläkulmassa
+     rect (SIVU, SIVU, SIVU, SIVU); // toinen neliö koskettaa ensimmäistä
+     rect (2 * SIVU, 2 * SIVU, SIVU, SIVU); // kolmas koskettaa toista
+   #+END_SRC
+
+   #+BEGIN_SRC processing :exports both :noweb yes
+     size (600, 400);
+     final float SIVU = 128; // vakio
+
+     <<nelioita-vakiolla-runko>>
+   #+END_SRC
+
+   Verrataan ohjelmaa toiseen, jossa ei käytetä vakioita. Ohjelma
+   piirtää saman kuvan.
+
+   #+BEGIN_SRC processing :exports code
+     size (600, 400);
+
+     colorMode (HSB, 100);
+     background (59, 21, 87);
+     fill (58, 98, 59);
+
+     rect (0, 0, 128, 128);
+     rect (128, 128, 128, 128);
+     rect (256, 256, 128, 128);
+   #+END_SRC
+
+   Jo näin pienessä ohjelmassa vakion käytöllä on useita hyviä puolia.
+   - Ensimmäisestä ohjelmakoodista nähdään /heti/, että
+     - ohjelmassa esiintyvä luku 128 on nimenomaan neliön sivun pituus
+     - kaikki suorakulmiot ovat neliöitä ja että niillä kaikilla on sama
+       sivun pituus
+     - toisen neliön vasen yläkulma on tarkoituksellisesti
+       koordinaateissa ~(SIVU, SIVU)~
+     - kolmannen neliön vasen yläkulma on tarkoituksellisesti
+       koordinaateissa ~(2 * SIVU, 2 * SIVU)~.
+   - Kolmannen neliön koordinaatit lasketaan ohjelmassa automaattisesti.
+     
+   Eikä siinä vielä kaikki. Kuvitellaanpa, että haluamme muuttaa
+   neliön sivun pituutta. Ohjelman ensimmäisessä versiossa tarvitsee
+   muuttaa vain yhtä lukua ohjelmassa, ja kaikki muut arvot muuttuvat
+   automaattisesti.
+
+   #+BEGIN_SRC processing :exports both :noweb yes
+     size (600, 400);
+     final float SIVU = 87; // sivun pituus muuttuu
+
+     <<nelioita-vakiolla-runko>>
+   #+END_SRC
+   
+   Toisessa versioissa täytyisi muuttaa kaikkia nollasta poikkeavia
+   koordinaatteja. 
+
+   #+BEGIN_QUOTE
+   Jos jotain lukua käytetään ohjelmassa useassa kohdassa, luku
+   määritellään yleensä vakiona. Myös vain yhdessä kohdassa käytetty
+   luku on usein hyvä määrittää vakiona, koska näin annetaan
+   ohjelmakoodin lukijalle selitys sekä luvun arvolle että
+   merkitykselle.
+   #+END_QUOTE
+
+   Monet ohjelmoijat kirjoittavat vakioiden nimet isoilla kirjaimilla
+   erottaakseen ne /muuttujista/, joista myöhemmin lisää. Sillä onko
+   vakion nimi kirjoitettu isoilla vai pienillä kirjamilla ei ole
+   merkitystä, kunhan nimi kirjoitetaan koko ajan samalla tavalla.
+
+   #+BEGIN_QUOTE
+   Vakion nimi on yksi sana, ja se täytyy kirjoittaa koko ajan samalla
+   tavalla. Isoja kirjaimia ei voi vaihtaa pieniin tai toisin
+   päin. Vakion nimessä voi käyttää kirjaimia ~a-z~, ~A-Z~, numeroita
+   ~0-9~ sekä alaviivaa ~_~. Vakion nimi ei voi alkaa numerolla.
+
+   Jotkut sanat ovat ohjelmointikielen /varattuna sanoja/, eikä niitä
+   voi käyttää vakioiden niminä. Tällaisia ovat mm. ~float~ sekä
+   ~final~.
+   #+END_QUOTE
+** Laskutoimituksia vakioilla
+   Processing-ohjelmointikielessä kerto-, yhteen- ja vähennyslaskuun
+   käytetyt merkit ovat seuraavat.
+   | laskutoimitus | merkki |
+   |---------------+--------|
+   | kertolasku    | ~*~    |
+   | yhteenlasku   | ~+~    |
+   | vähennyslasku | ~-~    |
+
+   Processing tuntee laskujärjestyksen. Sulkuja voidaan tarvittaessa
+   käyttää ryhmittelyssä. Vakioiden avulla voidaan laskea toisia
+   vakioita. Tästä esimerkki seuraavassa. Esimerkissä piirretään
+   vierekkäin kolme suorakulmiota, joiden leveyden ja korkeuden suhde
+   on \(1 : 2.\) Suorakulmioiden väliin jäteteään aina tilaa 10
+   yksikön verran. Leveyttä ja väliä voidaan säätää vakioiden avulla.
+
+   #+BEGIN_SRC processing :exports both
+        size (600, 400);
+        final float LEVEYS = 80;
+        final float VALI = 10;
+
+	// vakio korkeus lasketaan leveydestä
+	final float KORKEUS = 2 * LEVEYS;
+
+	rect (0, 0, LEVEYS, KORKEUS);
+	rect (LEVEYS + VALI, 0, LEVEYS, KORKEUS);
+	rect (2 * (LEVEYS + VALI), 0, LEVEYS, KORKEUS);
+   #+END_SRC
+
+   #+BEGIN_QUOTE
+   Ohjelmakoodissa vakion arvo voidaan laskea toisista vakioista
+   vakion määrittelevällä rivillä.
+   #+END_QUOTE
+
+** {{{example}}}
+   Tässä esimerkissä piirretään mustalle pohjalle valkoinen
+   suunnikas. Seuraavat vakiot ja ominaisuudet määrittävät kuvion
+   mitat.
+   - ~KANTA~ on suunnikkaan kannan pituus ja ~KORKEUS~ suunnikkaan
+     korkeus
+   - ~OIKEA_YLAKULMA_X~ on suunnikkaan oikean yläkulman
+     \(x\)-koordinaatti; \(y\)-koordinaatti on aina 0
+   - ~VASEN_ALAKULMA_X~ on suunnikkaan vasemman alakulman
+     \(x\)-koordinaatti
+
+   Suunnikkaan vasemman yläkulman sekä oikean alakulman
+   \(x\)-koordinaatit voidaan laskea annetuista tiedoista.
+   
+   #+NAME: suunnikas-vakioilla-runko
+   #+BEGIN_SRC processing :exports none
+     // lasketaan vielä tuntemattomat x-koordinaatit ja tallennetaan ne
+     // vakioihin
+     final float VASEN_YLAKULMA_X = OIKEA_YLAKULMA_X - KANTA;
+     final float OIKEA_ALAKULMA_X = VASEN_ALAKULMA_X + KANTA;
+
+     colorMode (HSB, 100);
+     noStroke ();
+     background (0);
+
+     quad (VASEN_YLAKULMA_X, 0,
+           OIKEA_YLAKULMA_X, 0,
+           OIKEA_ALAKULMA_X, KORKEUS,
+           VASEN_ALAKULMA_X, KORKEUS);
+   #+END_SRC
+
+
+   #+BEGIN_SRC processing :exports both :noweb yes
+     size (600, 400);
+
+     // kuvion mitat määrittävät vakiot
+     final float KANTA = 250; // suunnikkaan leveys
+     final float KORKEUS = 330; // suunnikkaan korkeus
+     // suunnikkaan vasemman yläkulman x-koordinaatti
+     final float OIKEA_YLAKULMA_X = 400;
+     // suunnikkaan vasemman alakulman x-koordinaatti
+     final float VASEN_ALAKULMA_X = 80;
+
+     <<suunnikas-vakioilla-runko>>
+   #+END_SRC
+
+   Pelkästään vakioiden arvoja muuttamalla voidaan samalla
+   ohjelmakoodilla piirtää seuraavanlainen kuvio.
+
+   #+BEGIN_SRC processing :exports both :noweb yes
+     size (600, 400);
+
+     // kuvion mitat määrittävät vakiot
+     final float KANTA = 350; // suunnikkaan leveys
+     final float KORKEUS = 50; // suunnikkaan korkeus
+     // suunnikkaan vasemman yläkulman x-koordinaatti
+     final float OIKEA_YLAKULMA_X = 400;
+     // suunnikkaan vasemman alakulman x-koordinaatti
+     final float VASEN_ALAKULMA_X = 80;
+
+     <<suunnikas-vakioilla-runko>>
+   #+END_SRC
+
+** Tehtävät
+   1. Piirrä \((400\times 400)\)-kokoiseen piirtoikkunaan neliö, jonka
+      vasen yläkulma on koordinaateissa \((0, 0).\) Määrittele neliön
+      sivun pituus vakiona ~SIVU~, jonka arvo on ensimmäisessä
+      versiossasi 200. Muuntele vakion suuruutta ja varmista, että
+      ohjelmasi toimii kuten pitääkin.
+   2. Piirrä \((400\times 400)\)-kokoiseen piirtoikkunaan alla olevan
+      kuvan mukaisesti suorakaide, jonka leveyden ja korkeuden suhde
+      on aina \(3:1,\) ja jonka korkeutta voit säädellä vakion
+      ~KORKEUS~ avulla. Suorakaiteen vasen yläkulma on
+      \(y\)-akselilla, ja vasemman yläkulman etäisyys origosta on sama
+      kuin suorakaiteen korkeus. Muuntele vakion suuruutta.
+      #+NAME: vakio-suorakaide-3-1
+      #+BEGIN_SRC processing
+        size (400, 400);
+
+        final float KORKEUS = 100;
+        rect (0, KORKEUS, 3 * KORKEUS, KORKEUS);
+      #+END_SRC
+   3. Piirrä \((400\times 400)\)-kokoiseen piirtoikkunaan alla olevan
+      kuvan mukaisesti kaksi suorakulmaista tasakylkistä
+      kolmiota. Kolmioiden kylkien pituutta sekä kolmioiden välistä
+      etäisyyttä \(x\)-akselilla täytyy voida säätää vakioiden ~KYLKI~
+      sekä ~VALI~ avulla. Molempien kolmioiden kaksi kärkipistettä on
+      aina \(x\)-akselilla, ja vasemmanpuoleisen kolmion yksi
+      kärkipiste on origossa. Muuntele vakioiden suuruuksia.
+
+      #+NAME: vakio-tasakylkiset-kolmiot
+      #+BEGIN_SRC processing
+        size (400, 400);
+        final float KYLKI = 120;
+        final float VALI = 20;
+        final float OIKEA_KOLMIO_VASEN_X = KYLKI + VALI;
+
+        triangle (0, 0, KYLKI, 0, KYLKI, KYLKI);
+        triangle (OIKEA_KOLMIO_VASEN_X, 0,
+                  OIKEA_KOLMIO_VASEN_X, KYLKI,
+                  OIKEA_KOLMIO_VASEN_X + KYLKI, 0);
+      #+END_SRC
+   4. Piirrä \((600\times 400)\)-kokoiseen piirtoikkunaan siniselle
+      pohjalle musta suorakulmio ja suorakulmion sisään valkoinen
+      suunnikas alla olevan kuvion mukaisesti. Suorakulmion vasen
+      yläkulma on origossa. Seuraavat vakiot määräävät kuvan tarkan
+      sisällön.
+      - ~LEVEYS~ on suorakulmion leveys
+      - ~KORKEUS~ on suorakulmion korkeus
+      - ~SUUNNIKAS_X~ on suunnikkaan \(x\)-akselilla sijaitsevan
+        kärkipisteen \(x\)-koordinaatti
+      - ~SUUNNIKAS_Y~ on suunnikkaan \(y\)-akselilla sijaitsevan
+        kärkipisteen \(y\)-koordinaatti.
+      Muuntele vakioiden suuruuksia.
+
+      #+NAME: vakio-suunnikas-suorakulmiossa
+      #+BEGIN_SRC processing
+        size (600, 400);
+        final float LEVEYS = 500;
+        final float KORKEUS = 300;
+        final float SUUNNIKAS_X = 300;
+        final float SUUNNIKAS_Y = 250;
+
+        colorMode (HSB, 100);
+        background (62, 100, 100); // sininen tausta
+
+	fill (0); // musta väri
+        rect (0, 0, LEVEYS, KORKEUS);
+
+	fill (100); // valkoinen väri
+        quad (SUUNNIKAS_X, 0,
+              0, SUUNNIKAS_Y,
+              LEVEYS - SUUNNIKAS_X, KORKEUS,
+              LEVEYS, KORKEUS - SUUNNIKAS_Y);
+
+      #+END_SRC
+   5. Piirrä \((400\times 400)\)-kokoiseen piirtoikkunaan valkoiselle
+      taustalle alla olevan kuvan mukaisesti kolme neliötä. Seuraavat
+      vakiot määräävät ohjelman tarkan toimintatavan.
+      - ~SUURI_SIVU~ on suuren neliön sivun pituus
+      - ~PIENI_SIVU~ on pienien neliöiden sivun pituus
+      - ~SUURI_SAVY~ on suuren neliön värisävy
+      - ~SAVY_MUUTOS~ on värisävymuutos suuren neliön sävystä pienten
+        neliöiden sävyyn; vasemman yläkulman pienen neliön sävyyn tämä
+        muutos lisätään kerran, oikean alakulman pienen neliön sävyyn
+        muutos lisätään kaksinkertaisena
+      - ~KYLLAISYYS~ on kaikkien värien kylläisyys ja ~KIRKKAUS~
+	kaikkien värien kirkkaus.
+	
+      Suuren neliön vasen yläkulma on origossa ja pienten neliöiden
+      yksi kärkipiste suuren neliön kärkipisteessä. Muuntele vakioiden
+      suuruuksia.
+      #+NAME: vakio-pienet-neliot-isossa
+      #+BEGIN_SRC processing
+        size (400, 400);
+        final float SUURI_SIVU = 300;
+        final float PIENI_SIVU = 90;
+
+        final float SUURI_SAVY = 15;
+        final float SAVY_MUUTOS = 30;
+        final float KYLLAISYYS = 70;
+        final float KIRKKAUS = 90;
+
+        // kuvassa oikealla alhaalla olevan pienen neliön vasemman yläkulman
+        // x- ja y-koordinaatti (sama luku)
+        final float PIENI_YLAKULMA = SUURI_SIVU - PIENI_SIVU;
+
+        colorMode (HSB, 100);
+	background (100);
+        noStroke ();
+
+	// suuri neliö
+        fill (SUURI_SAVY, KYLLAISYYS, KIRKKAUS);
+        rect (0, 0, SUURI_SIVU, SUURI_SIVU);
+
+	// vasemman yläkulman neliö
+        fill (SUURI_SAVY + SAVY_MUUTOS, KYLLAISYYS, KIRKKAUS);
+        rect (0, 0, PIENI_SIVU, PIENI_SIVU);
+
+	// oikean alakulman neliö
+        fill (SUURI_SAVY + 2 * SAVY_MUUTOS, KYLLAISYYS, KIRKKAUS);
+        rect (PIENI_YLAKULMA, PIENI_YLAKULMA,
+              PIENI_SIVU, PIENI_SIVU);
+      #+END_SRC
+   6. Alla olevaan piirtoikkunaan on piirretty
+      - punaisella ne piirtoikkunan pisteet, joille pätee \(y = x\)
+      - vihreällä ne piirtoikkunan pisteet, joille pätee \(y = 2x\)
+      - sinisellä ne piirtoikkunan pisteet, joille pätee \(y = 3x.\)
+      Yleisesti ne piirtoikkunan pisteet, joille pätee \(y = K\cdot
+      x,\) missä $K$ on jokin vakio, sijaitsevat origon kautta
+      kulkevalla suoralla.
+      #+BEGIN_SRC processing
+        size (400, 400);
+        colorMode (HSB, 100);
+	background (0);
+        for (int k = 1; k <= 3; k++)
+         {
+         stroke (k == 1 ? 0 : (k == 2 ? 30 : 65), 100, 100);
+           line (0, 0, height / ((float) k), height);
+         }
+      #+END_SRC
+      Piirrä \((400\times 400)\)-kokoiseen piirtoikkunaan alla olevan
+      kuvan mukaisesti kaksi suorakulmioita. Suuremman ja pienemmän
+      suorakulmion leveyksien suhden on \(2:1.\) Seuraavat
+      vakiot määräävät ohjelman tarkan toimintatavan.
+      - ~K~ määrittää origon kautta kulkevan suoran \(y = K\cdot x,\)
+        jolla molempien suorakulmioiden kaksi kärkipistettä
+        sijaitsevat
+      - ~LEVEYS_PIENI~ on pienemmän suorakulmion leveys
+      Muuntele vakioiden suuruuksia.
+	
+      #+NAME: vakio-suorakulmiot-suoralla
+      #+BEGIN_SRC processing
+        size (400, 400);
+        final float K = 3;
+        final float LEVEYS_PIENI = 40;
+        final float KORKEUS_PIENI = K * LEVEYS_PIENI;
+
+        rect (0, 0, LEVEYS_PIENI, KORKEUS_PIENI);
+        rect (LEVEYS_PIENI, KORKEUS_PIENI, 2 * LEVEYS_PIENI, 2 * KORKEUS_PIENI);
+
+      #+END_SRC
+** Ratkaisuja
+   1. 
+      #+BEGIN_SRC processing :exports both
+        size (400, 400);
+        final float SIVU = 100;
+        rect (0, 0, SIVU, SIVU);
+      #+END_SRC
+   2. 
+      #+BEGIN_SRC processing :exports code :noweb yes
+      <<vakio-suorakaide-3-1>>
+      #+END_SRC
+   3. 
+      #+BEGIN_SRC processing :exports code :noweb yes
+      <<vakio-tasakylkiset-kolmiot>>
+      #+END_SRC
+   4. 
+      #+BEGIN_SRC processing :exports code :noweb yes
+      <<vakio-suunnikas-suorakulmiossa>>
+      #+END_SRC
+      
+   5. 
+      #+BEGIN_SRC processing :exports code :noweb yes
+      <<vakio-pienet-neliot-isossa>>
+      #+END_SRC
+   6. 
+      #+BEGIN_SRC processing :exports code :noweb yes
+      <<vakio-suorakulmiot-suoralla>>
+      #+END_SRC

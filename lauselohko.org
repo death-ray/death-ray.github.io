@@ -1,0 +1,549 @@
+#+INCLUDE: ohjelmointi-kappaleiden-yhteiset-asetukset.org
+
+* Lauselohko
+** {{{example}}}
+  Kirjoitetaan ohjelma, joka piirtää piirtoikkunan keskelle ympyrän
+  seuraavasti.
+  - Jos ikkunan leveys on suurempi kuin korkeus, piirretään mustalle
+    taustalle ympyrä, jonka halkaisija on 100.
+  - Muussa tapauksessa piirretään siniselle taustalle ympyrä, jonka
+    halkaisija on 50.
+
+  Muistamme, että ~if-else~-rakenne näyttää seuraavalta.
+  #+BEGIN_EXAMPLE
+  if (ehto)
+    lauseke, joka suoritetaan jos ehto tosi;
+  else
+    lauseke, joka suoritetaan jos ehto ei ole tosi;
+  #+END_EXAMPLE
+  Suunnittelemassamme ohjelmassa ehto vaikuttaa kahteen asiaan: sekä
+  taustaväriin että ympyrän halkaisijaan. Ehdon ollessa tosi halutaan
+  siis suorittaa useampi lauseke.
+  
+  /Lauselohkot/ helpottavat ohjelman kirjoittamista.
+
+  #+BEGIN_QUOTE
+  Lauselohko alkaa ~{~-merkillä ja päättyy
+  ~}~-merkkiin. ~if-else~-rakenteessa lauselohkot näyttävät
+  seuraavilta.
+  #+BEGIN_EXAMPLE
+  if (ehto)
+  {
+    lauseke;
+    toinen lauseke;
+    ...
+    viimeinen lauseke;
+  }
+  else
+  {
+    lauseke;
+    toinen lauseke;
+    ...
+    viimeinen lauseke;
+  }
+  #+END_EXAMPLE
+  Lauselohko yhdistää toisiinsa useita lausekkeita siten, että
+  ohjelmointikielen rakenne, kuten ~if-else~-rakenne, käsittelee niitä
+  yhtenä lausekkeena.
+  #+END_QUOTE
+
+  Ohjelmamme näyttää seuraavalta.
+  #+BEGIN_SRC processing :exports both
+    size (200, 300);
+
+    colorMode (HSB, 100);
+    noStroke ();
+
+    float halkaisija;
+    if (width > height)
+    {
+      background (0); // musta tausta
+      halkaisija = 100;
+    }
+    else
+    {
+      background (63, 100, 100); // sininen tausta
+      halkaisija = 50;
+    }
+
+    ellipse (width / 2.0, height / 2.0, halkaisija, halkaisija);
+  #+END_SRC
+** {{{example}}}
+   Kirjoitetaan ohjelma, joka piirtää siniselle taustalle \(200\times
+   200\)-kokoiseen piirtoikkunaan ympyrän, jonka halkaisija on 20 ja
+   keskipiste vakioiden ~X~ ja ~Y~ määrittämissä
+   koordinaateissa. Ympyrä on valkoinen, paitsi jos keskipisteen
+   \(x\)-koordinaatti on vähintään 100, jolloin
+   - jos \(y\)-koordinaatti alle 100, ympyrä on musta 
+   - muuten ympyrä on harmaa.
+
+   Ohjelma voidaan kirjoittaa monella tavalla, alla kaksi
+   ratkaisua. Ensimmäisessä vaihtoehdossa asetetaan ohjelman alussa
+   väriksi valkoinen eli kirkkauden arvoksi 100 ja muutetaan
+   kirkkauden arvoa tarvittaessa.
+   #+NAME: ympyran-vari-sijainnista-alku
+   #+BEGIN_SRC processing :exports none
+     size (200, 200);
+
+     colorMode (HSB, 100);
+     background (62, 100, 100);
+     final float X = 110, Y = 50;
+     final float HALKAISIJA = 20;
+   #+END_SRC
+
+   #+NAME: ympyran-vari-sijainnista-loppu
+   #+BEGIN_SRC processing :exports none
+     fill (kirkkaus);
+     ellipse (X, Y, HALKAISIJA, HALKAISIJA);
+   #+END_SRC
+
+   #+BEGIN_SRC processing :exports both :noweb yes
+     <<ympyran-vari-sijainnista-alku>>
+
+     float kirkkaus = 100; // oletusarvoisesti valkoinen väri
+
+     if (X >= 100)
+     {
+       if (Y < 100)
+         kirkkaus = 0; // musta väri
+       else
+         kirkkaus = 50; // harmaa väri
+     }
+
+     <<ympyran-vari-sijainnista-loppu>>
+   #+END_SRC
+
+   Toisessa vaihtoehdossa kirkkaudelle ei aseteta mitään arvoa aluksi.
+   #+BEGIN_SRC processing :exports both :noweb yes
+     <<ympyran-vari-sijainnista-alku>>
+
+     float kirkkaus;
+
+     if (X < 100)
+       kirkkaus = 100; // valkoinen
+     else
+     {
+       if (Y < 100)
+         kirkkaus = 0; // musta
+       else
+         kirkkaus = 50; // harmaa
+     }
+
+     <<ympyran-vari-sijainnista-loppu>>
+   #+END_SRC
+
+** {{{example}}}
+   Kirjoitetaan ohjelma, joka piirtää suorakulmion \(600\times
+   400\)-kokoiseen piirtoikkunaan seuraavasti. Ohjelmassa määritellään
+   neljän vakion avulla kaksi piirtoikkunan pistettä $A$ ja $B$:
+    - ~X_A~ määrittää pisteen $A$ \(x\)-koordinaatin ja ~Y_A~ saman
+      pisteen \(y\)-koordinaatin
+    - ~X_B~ määrittää pisteen $B$ \(x\)-koordinaatin ja ~Y_B~ saman
+      pisteen \(y\)-koordinaatin.
+   Ohjelma piirtää suorakulmion, jonka vastakkaiset kärkipisteet ovat
+   $A$ ja \(B.\)
+
+   [Ohjelma voitaisiin kirjoittaa lyhyesti käyttämällä
+   Processing-kielen funktiota ~rectMode()~. Tässä on tarkoitus
+   miettiä, miten ratkaisu voidaan ohjelmoida.]
+
+   Suorakulmio voidaan piirtää sen jälkeen, kun on selvitetty vasen
+   yläkulma ja oikea alakulma. Nämä riippuvat siitä, miten $A$ ja $B$
+   sijaitsevat. Alla olevassa kuvassa on piste $A(300, 200$ sekä
+   vaihtoehtoja pisteelle \(B.\) Jos piste $B$ on kuvaan piirretty
+   vihreä piste, niin silloin vasen yläkulma on punainen piste ja
+   oikea alakulma sininen piste. Kulmien koordinaatit voidaan päätellä
+   seuraavasti.
+   - Vasemman yläkulman \(x\)-koordinaatti on aina pienempi pisteiden
+     $A$ ja $B$ \(x\)-koordinaateista. Esimerkiksi kuvassa se on
+     pienempi luvuista 300 ja 120, eli 120.
+   - Oikean alakulman \(x\)-koordinaatti on aina suurempi pisteiden
+     $A$ ja $B$ \(x\)-koordinaateista.  Esimerkiksi kuvassa se on
+     suurempi luvuista 300 ja 120, eli 300.
+   - Vastaavasti vasemman yläkulman \(y\)-koordinaatti on aina
+     pienempi pisteiden $A$ ja $B$ \(y\)-koordinaateista. Ja niin
+     edelleen.
+
+   #+BEGIN_SRC asymptote :file suorakulmio-karkipisteista.svg :cache yes
+     int LEVEYS = 600, KORKEUS = 400;
+     size (LEVEYS, KORKEUS);
+     filldraw (xscale (LEVEYS) * yscale (KORKEUS) * unitsquare, white);
+
+     // muunnos Processing-koordinaatistosta perinteiseen koordinaatistoon
+     transform T = shift ((0, KORKEUS)) * yscale (-1); 
+
+     pair A = (LEVEYS / 2, KORKEUS / 2);
+     dot ("$A$" + ((string) A), T * A);
+     real[] osuudet = { .2, .8};
+     int i = 0;
+     for (real m : osuudet)
+       for (real n : osuudet)
+         {
+   	pair B = (m * LEVEYS, n * KORKEUS);
+   	string BTeksti = "$B$";
+   	pen BVari = black;
+   	if (++i == 2)
+             {
+               pair alakulma = minbound (A, B);
+               pair ylakulma = maxbound (A, B);
+               dot ((string) alakulma, T * alakulma,
+   		unit (T * alakulma - T * A), 
+   		red);
+               dot ((string) ylakulma, T * ylakulma,
+   		unit (T * ylakulma - T * A), 
+   		blue);
+               real l = ylakulma.x - alakulma.x; // suorakaiteen leveys
+               real k = ylakulma.y - alakulma.y; // suorakaiteen korkeus
+               draw (T * shift (alakulma) * scale (l, k) * unitsquare);
+               BTeksti += (string) B;
+               BVari = green;
+             }
+             dot (BTeksti, T * B, unit (T * B - T * A), BVari);
+         }
+   #+END_SRC
+
+   #+RESULTS[c2a9f690bced7a87d82327f9d49f10ebf681491f]:
+   [[file:suorakulmio-karkipisteista.svg]]
+
+   Vastaava ohjelma näyttää seuraavalta.
+   #+BEGIN_SRC processing :exports both
+     size (600, 400);
+     final float X_A = 300, Y_A = 200;
+     final float X_B = 120, Y_B = 320;
+
+     float ylakulmaX, ylakulmaY; // vasemman yläkulman koordinaatit
+     float alakulmaX, alakulmaY; // oikean alakulman koordinaatit
+
+     if (X_A < X_B)
+     {
+       ylakulmaX = X_A;
+       alakulmaX = X_B;
+     }
+     else
+     {
+       ylakulmaX = X_B;
+       alakulmaX = X_A;
+     }
+
+     if (Y_A < Y_B)
+     {
+       ylakulmaY = Y_A;
+       alakulmaY = Y_B;
+     }
+     else
+     {
+       ylakulmaY = Y_B;
+       alakulmaY = Y_A;
+     }
+
+     // suorakulmion leveys ja korkeus
+     float leveys = alakulmaX - ylakulmaX;
+     float korkeus = alakulmaY - ylakulmaY;
+
+     rect (ylakulmaX, ylakulmaY, leveys, korkeus);
+   #+END_SRC
+
+** Tehtävät
+   1. Kirjoita seuraava ohjelma.
+      - Piirtoikkunan koko on \(400\times 400.\)
+      - Ohjelmassa on vakio ~P~. Anna vakiolle ~P~ ensin arvoksi
+        valitsemasi luku joka on vähintään 10 ja korkeintaan 200.
+      - Jos ~P~ on alle 100, ohjelma piirtää punaisen neliön, jonka
+        sivun pituus on ~P~.
+      - Muuten piirretään vihreä ympyrä, jonka halkaisija on ~P~.
+      Testaa ohjelmasi toimivuus eri vakion ~P~ arvoilla.
+   2. Kirjoita ohjelma, jossa on vakio ~K.~ Ohjelma piirtää vakion ~K~
+      arvosta riippuen eri värisen neliön: jos arvo on
+      - alle 10, neliö on punainen
+      - vähintään 10 mutta alle 20, neliö on keltainen
+      - vähintään 20, neliö on vihreä.
+   3. Kirjoita ohjelma, jossa piirtoikkunaan piirretään eri kuvio
+      riippuen vakion ~Y~ arvosta.
+      - Jos ~Y~ on pienempi tai yhtä suuri kuin 0, taustaväriksi
+        asetetaan punainen väri eikä ikkunaan piirretä mitään kuviota.
+      - Muussa tapauksessa piirretään viiva pisteestä \((0, 0)\)
+        ikkunan oikeassa reunassa olevaan pisteeseen, jonka
+        \(y\)-koordinaatti on ~Y~. Jos ~Y~ on suurempi kuin
+        piirtoikkunan korkeus, viiva on punainen, muussa tapauksessa
+        se on musta. Alla on ohjelman piirtämä kuva vakion ~Y~ arvolla
+        500, kun piirtoikkunan koko on \(400\times 300\).
+	#+NAME: viiva-oikeaan-reunaan
+	#+BEGIN_SRC processing
+          size (400, 300);
+          colorMode (HSB, 100);
+
+          final float Y = 500;
+          if (Y < 0)
+            background (0, 100, 100);
+          else
+          {
+            if (Y > height)
+              stroke (0, 100, 100);
+            line (0, 0, width, Y);
+          }
+	#+END_SRC
+   4. Kirjoita ohjelma, joka piirtää keskelle neliön kokoista
+      piirtoikkunaa mahdollisimman suuren ympyrän värillä, jonka
+      värisävy on 17. Ympyrän värin kirkkauden määrää vakio ~KIRKKAUS~
+      ja värikylläisyyden vakio ~KYLLAISYYS~. Piirtoikkunan taustan
+      väri määräytyy seuraavan taulukon mukaisesti.
+
+      #+BEGIN_CENTER
+      +----------------+-----------------+-----------+
+      |                | KYLLAISYYS                  |
+      +----------------+-----------------+-----------+
+      | KIRKKAUS       | korkeintaan 50  | yli 50    |
+      +----------------+-----------------+-----------+
+      | korkeintaan 50 | kirkas punainen | valkoinen |
+      | yli 50         | tumma sininen   | musta     |
+      +----------------+-----------------+-----------+
+      #+END_CENTER
+	
+   5. Kirjoita ohjelma, jossa piirretään \(200\times 400\)-kokoiseen
+      piirtoikkunaan mustalle taustalle päällekkäin kaksi ympyrää,
+      joiden halkaisija on 200. Ohjelmassa määritellään yksi vakio
+      ~P~, jonka arvo on vähintään 0 ja korkeintaan 200. 
+      - Jos ~P~ on korkeintaan 100, ylempi ympyrä on punainen ja
+        alempi oranssi, ja ylemmän ympyrän värin kirkkaus on ~(100 -
+        P)~ ja alemman ~P~.
+      - Muussa tapauksessa ylempi ympyrä on oranssi ja alempi vihreä,
+        ja ylemmän ympyrän värin kirkkaus on ~(200 - P)~ ja
+        alemman ~(P - 100)~. 
+      Alla on esimerkki ohjelman piirtämästä kuvasta vakion ~P~
+      arvolla 130. Testaa ohjelmasi toimivuutta eri vakion ~P~
+      arvoilla.
+      #+NAME: kaksi-liikennevaloa
+      #+BEGIN_SRC processing
+        size (200, 400);
+        final float P = 130;
+        final float HALKAISIJA = width;
+        final float SADE = HALKAISIJA / 2;
+
+        colorMode (HSB, 100);
+        final float PUNAINEN_SAVY = 0, ORANSSI_SAVY = 10, VIHREA_SAVY = 33;
+        float ylemmanSavy, alemmanSavy;
+	float ylemmanKirkkaus, alemmanKirkkaus;
+
+        background (0);
+
+        if (P <= 100)
+        {
+          ylemmanSavy = PUNAINEN_SAVY;
+          alemmanSavy = ORANSSI_SAVY;
+	  ylemmanKirkkaus = 100 - P;
+	  alemmanKirkkaus = P;
+        }
+        else
+        {
+          ylemmanSavy = ORANSSI_SAVY;
+          alemmanSavy = VIHREA_SAVY;
+	  ylemmanKirkkaus = 200 - P;
+	  alemmanKirkkaus = P - 100;
+        }
+
+        fill (ylemmanSavy, 100, ylemmanKirkkaus);
+        ellipse (SADE, SADE, HALKAISIJA, HALKAISIJA);
+        fill (alemmanSavy, 100, alemmanKirkkaus);
+        ellipse (SADE, HALKAISIJA + SADE, HALKAISIJA, HALKAISIJA);
+      #+END_SRC
+   6. Kirjoita ohjelma, joka piirtää piirtoikkunaan kaksi
+      mahdollisimman suurta ympyrää joko päällekkäin tai vierekkäin
+      riippuen siitä, kummalla tavalla saadaan piirrettyä suuremmat
+      ympyrät. Toisen ympyrän tulee olla alla olevan esimerkkikuvan
+      mukaisesti piirtoikkunan vasemmassa yläkulmassa ja toisen
+      suoraan ensimmäisen vieressä tai alla. Testaa ohjelmasi
+      toimivuutta seuraavan kokoisilla piirtoikkunoilla: \((500 \times
+      400\)), \((500 \times 200\)), \((400 \times 500\)) sekä \((200
+      \times 500\)).
+      #+NAME: suurin-ympyrapari
+      #+BEGIN_SRC processing exports both
+        size (500, 200);
+
+        float halkaisija; // ympyröiden halkaisija
+
+        // ympyröiden keskipisteiden välinen erotus x- ja y-suunnissa
+        float kpErotusX, kpErotusY;
+
+        if (width > height)
+        {
+          // piirretään vierekkäin
+
+	  // rajoittaako ympyrän koon ikkunan leveys vai korkeus?
+          if (width / 2.0 < height)
+            halkaisija = width / 2.0;
+          else
+            halkaisija = height;
+
+          kpErotusX = halkaisija;
+          kpErotusY = 0;
+        }
+        else
+        {
+          // piirretään päällekkäin
+
+	  // rajoittaako ympyrän koon ikkunan korkeus vai leveys?
+          if (height / 2.0 < width)
+            halkaisija = height / 2.0;
+          else
+            halkaisija = width;
+
+          kpErotusX = 0;
+          kpErotusY = halkaisija;
+        }
+
+        float sade = halkaisija / 2.0;
+        ellipse (sade, sade, halkaisija, halkaisija);
+        ellipse (sade + kpErotusX, sade + kpErotusY, halkaisija, halkaisija);
+      #+END_SRC
+   7. Kirjoita ohjelma, joka piirtää neliön muotoiseen piirtoikkunaan
+      viivan \(AB\). Viivan toinen päätepiste \(A\) on neliön
+      keskellä. Toisen päätepisteen sijainnin määrää vakio ~P~, jonka
+      arvo on vähintään 0 ja korkeintaan 100. Piste $B$ on neliön
+      piirillä origosta ~P~ prosenttia myötäpäivään. Alla oleva kuva
+      on piirretty vakion ~P~ arvolla 40.
+      #+NAME: piste-nelion-piirilla
+      #+BEGIN_SRC processing
+        size (400, 400);
+
+        final float SIVU = width;
+
+        final float P = 40;
+
+        float paatepisteX, paatepisteY;
+
+        if (P <= 25)
+        {
+          paatepisteX = P / 25 * SIVU;
+          paatepisteY = 0;
+        }
+        else if (P <= 50)
+        {
+          paatepisteX = SIVU;
+          paatepisteY = (P - 25) / 25 * SIVU;
+        }
+        else if (P <= 75)
+        {
+          paatepisteX = SIVU - (P - 50) / 25 * SIVU;
+          paatepisteY = SIVU;
+        }
+        else
+        {
+          paatepisteX = 0;
+          paatepisteY = SIVU - (P - 75) / 25 * SIVU;
+        }
+
+        line (SIVU / 2, SIVU / 2, paatepisteX, paatepisteY);
+      #+END_SRC
+
+** Ratkaisuja
+   1. 
+      #+BEGIN_SRC processing :exports both
+        size (400, 400);
+        final float P = 70;
+        colorMode (HSB, 100);
+	noStroke (); // ei piirretä ääriviivoja
+        if (P < 100)
+        {
+          fill (0, 70, 100); // punainen väri
+          rect (0, 0, P, P);
+        }
+        else
+        {
+          fill (30, 70, 100); // vihreä väri
+          final float SADE = P / 2;
+          ellipse (SADE, SADE, P, P);
+        }
+      #+END_SRC
+   2. 
+      #+BEGIN_SRC processing :exports both
+        size (200, 200);
+        final float SIVU = 100;
+	colorMode (HSB, 100);
+
+        final float K = 11;
+
+        float savy;
+
+        if (K < 10)
+          savy = 0; // punainen
+        else
+        {
+          if (K < 20)
+            savy = 17; // keltainen
+          else
+            savy = 30; // vihreä
+        }
+
+        fill (savy, 100, 100);
+        rect (0, 0, SIVU, SIVU);
+      #+END_SRC
+   3. 
+      #+BEGIN_SRC processing :exports code :noweb yes
+      <<viiva-oikeaan-reunaan>>
+      #+END_SRC
+   4. 
+      #+BEGIN_SRC processing :exports both
+        size (400, 400);
+        final float HALKAISIJA = width;
+        final float KESKIPISTE = width / 2.0;
+        colorMode (HSB, 100);
+
+        // ympyrän väri
+        final float SAVY = 17;
+        final float KYLLAISYYS = 50;
+        final float KIRKKAUS = 51;
+
+        float taustaSavy, taustaKyllaisyys, taustaKirkkaus;
+
+        if (KIRKKAUS <= 50)
+        {
+          if (KYLLAISYYS <= 50)
+          {
+            // kirkas punainen
+            taustaSavy = 0;
+            taustaKyllaisyys = 100;
+            taustaKirkkaus = 100;
+          }
+          else
+          {
+            // valkoinen
+            taustaSavy = 0;
+            taustaKyllaisyys = 0;
+            taustaKirkkaus = 100;
+          }
+        }
+        else
+        {
+	  // tässä lohkossa kirkkaus on siis yli 50
+          if (KYLLAISYYS <= 50)
+          {
+            // tumma sininen
+            taustaSavy = 62;
+            taustaKyllaisyys = 100;
+            taustaKirkkaus = 20;
+          }
+          else
+          {
+            // musta
+            taustaSavy = 0;
+            taustaKyllaisyys = 0;
+            taustaKirkkaus = 0;
+          }
+        }
+
+        background (taustaSavy, taustaKyllaisyys, taustaKirkkaus);
+	fill (SAVY, KYLLAISYYS, KIRKKAUS);
+        ellipse (KESKIPISTE, KESKIPISTE, HALKAISIJA, HALKAISIJA);
+      #+END_SRC
+   5. 
+      #+BEGIN_SRC processing :exports code :noweb yes
+      <<kaksi-liikennevaloa>>
+      #+END_SRC
+   6. 
+      #+BEGIN_SRC processing :exports code :noweb yes
+      <<suurin-ympyrapari>>
+      #+END_SRC
+   7. 
+      #+BEGIN_SRC processing :exports code :noweb yes
+      <<piste-nelion-piirilla>>
+      #+END_SRC

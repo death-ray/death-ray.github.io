@@ -1,0 +1,24 @@
+<html>
+  <head>
+    <link rel="additional stylesheet" type="text/css" href="ohjelmointi.css" />  <head>
+    <title>Ohjelmointi</title>
+    </head>
+  <body>
+    <meta charset="UTF-8">
+    PREAMBLE
+    <div id="supported-by">
+      <a id="supported-by-link"
+         href="http://100-vuotissaatio.teknologiateollisuus.fi/">
+        <img id="supported-by-img" src="teknologiateollisuuden-100-vuotissaatio.png"
+             alt="Teknologiateollisuuden 100-vuotissäätiö">
+      </a>
+    </div>
+    <script language="javascript" type="text/javascript" src="p5.js"></script>
+    <script language="javascript" type="text/javascript" src="p5.dom.js"></script>
+    <div id="frontpage-canvas"
+         style="height: 90vh;width: 95vw;"></div>
+    <script language="javascript" type="text/javascript" src="etusivu.js"></script>
+    <style> body {padding: 0; margin: 0;} </style>
+  </body>
+</html>
+  

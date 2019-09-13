@@ -1,0 +1,139 @@
+#+INCLUDE: ohjelmointi-kappaleiden-yhteiset-asetukset.org
+
+* Hiiren painallukset
+** {{{example}}}
+   Vie hiiren kursori alla olevaan piirtoikkunaan ja painele hiiren
+   nappia eri kohdissa.
+   #+NAME: hiiren-painallukset-neliot
+   #+BEGIN_SRC processing
+     void setup ()
+     {
+       size (400, 400);
+       colorMode (HSB, 100);
+       background (0);
+     }
+
+     // tyhjä piirtofunktio, joka vain pitää ohjelman käynnissä
+     void draw ()
+     {
+     }
+
+     // tätä funktiota kutsutaan, kun hiirtä on painettu
+     void mousePressed ()
+     {
+       final int SIVU = 20;
+       // hiiren koordinaatit ovat automaattisesti muuttujissa 
+       // mouseX ja mouseY
+       rect (mouseX, mouseY, SIVU, SIVU);
+     }
+   #+END_SRC
+
+   Yllä oleva interaktiivinen ohjelma on tehty alla olevalla
+   Processing-ohjelmalla. Huomaa, että aiemmin piirretyt neliöt jäävät
+   piirtoikkunaan: ohjelmassa ei missään vaiheessa piirretä taustaa
+   uudestaan funktiolla ~background()~.
+
+   #+BEGIN_SRC processing :noweb yes :exports code
+   <<hiiren-painallukset-neliot>>
+   #+END_SRC
+** Hiiren painallukset Processing-ohjelmassa
+
+   #+BEGIN_QUOTE
+   Jos Processing-ohjelmaan on kirjoitettu funktio ~mousePressed()~,
+   niin funktiota kutsutaan aina, kun käyttäjä painaa hiiren nappia
+   piirtoikkunan sisällä. Funktion sisällä muuttujien ~mouseX~ ja
+   ~mouseY~ arvot ovat hiiren kursorin \(x\)- ja \(y\)-koordinaatit.
+   #+END_QUOTE
+** {{{example}}}
+   Alla oleva ohjelmakoodin tuloksena saadaan [[file:hiiren-painallukset-ympyran-ohjaus-sivu.org][tällä sivulla]] oleva
+   interaktiivinen animaatio. Animaatiossa ympyrä liikkuu oikealle tai
+   vasemmalle riippuen siitä, painetaanko hiiren painiketta ympyrän
+   keskipisteen oikealla vai vasemmalla puolella.
+   #+BEGIN_SRC processing :noweb yes :exports code
+   <<hiiren-painallukset-ympyran-ohjaus>>
+   #+END_SRC
+
+   Yllä olevassa ohjelmassa ei kutsuta funktiota ~frameRate()~,
+   jolloin päivitystaajuudessa käytetään oletusarvoa 60.
+** Animaatioiden oletusarvoinen piirtonopeus 
+   #+BEGIN_QUOTE
+   Jos Processing-animaatiossa ei kutsuta funktiota ~frameRate()~,
+   niin tällöin piirretään oletusarvoisella nopeudella, joka on 60
+   kuvaa sekunnissa.
+   #+END_QUOTE
+** {{{example}}}
+   Alla oleva ohjelmakoodin tuloksena saadaan [[file:hiiren-painallukset-varin-valinta-sivu.org][tällä sivulla]] oleva
+   interaktiivinen ohjelmaa. Käyttäjä voi valita vasemmassa reunassa
+   olevasta väripaletista sen värin, jolla ympyrä piirretään. Ohjelman
+   toteutus perustuu siihen, että esimerkiksi värisävyä 50 vastaava
+   viiva piirretään \(y\)-koordinaattiin 50. Niinpä väriä valittaessa
+   värisävy saadaan suoraan hiiren \(y\)-koordinaatista. (Ohjelma ei
+   tarkista, onko hiiren painalluskohta väripaletin sisällä.)
+
+   #+BEGIN_SRC processing :noweb yes :exports code
+   <<hiiren-painallukset-varin-valinta>>
+   #+END_SRC
+
+#+INCLUDE: hiiren-painallukset-ratkaisurunko.org
+** Tehtäviä
+   1. Tee [[file:hiiren-painallukset-x-koordinaatti-sivu.org][tällä sivulla]] oleva interaktiivinen ohjelma, joka piirtää
+      hiiren painalluskohtaan kursorin \(x\)-koordinaatin.
+   2. Tee [[file:hiiren-painallukset-ristikko-sivu.org][tällainen]] ohjelma, joka piirtää ristikon hiiren kursorin
+      kohtaan. 
+   3. Kirjoita [[file:hiiren-painallukset-murtoviiva-sivu.org][tällainen]] interaktiivinen ohjelma, joka piirtää
+      murtoviivaa. Murtoviivan pää on alussa origossa, ja pää siirtyy
+      hiiren nappia painettaessa kursorin koordinaatteihin. [Vihje:
+      funktio ~draw()~ ei tee mitään tässä ohjelmassa.]
+   4. Kirjoita ohjelma, joka toteuttaa [[file:hiiren-painallukset-oskilloiva-ympyra-sivu.org][tällä sivulla]] olevan
+      interaktiivisen animaation. Alussa ympyrän koko ei muutu. Kun
+      hiiren nappia painetaan, ympyrä alkaa kasvaa. Tämän jälkeen
+      uudet hiiren nappien painallukset alkavat vuorotellen pienentää
+      tai suurentaa ympyrää.
+
+      Processing-kielessä voi piirtää ympyrän, jolla on negatiivinen
+      halkaisija (tällöin ohjelma ei välitä halkaisijan
+      etumerkistä). Jotta ohjelmasi toimisi oikein, päivitä halkaisija
+      vain jos uusi halkaisija on positiivinen.
+   5. Kirjoita [[file:hiiren-painallukset-maalitippa-sivu.org][tällä sivulla]] oleva interaktiivinen ohjelma. Ohjelmassa
+      hiiren painallus synnyttää laajenevan ja tummenevan valkoisen
+      ympyrän. Ympyrän halkaisija on heti painalluksen jälkeen 10 ja
+      laajenee yhden yksikön kunkin askeleen aikana. Ympyrän kirkkaus
+      puolestaan on heti painalluksen jälkeen 100 ja vähenee 3
+      prosenttia kullakin askeleella.
+   6. Tee [[file:hiiren-painallukset-aaltoliike-sivu.org][tällä sivulla]] oleva interaktiivinen animaatio. Voit valita
+      tarpeelliset mitat itse.
+** Ratkaisuja
+   1. 
+       #+BEGIN_SRC processing :noweb yes :exports code
+       <<hiiren-painallukset-x-koordinaatti>>
+       #+END_SRC
+   2. 
+       #+BEGIN_SRC processing :noweb yes :exports code
+       <<hiiren-painallukset-ristikko>>
+       #+END_SRC
+   3. 
+       #+BEGIN_SRC processing :noweb yes :exports code
+       <<hiiren-painallukset-murtoviiva>>
+       #+END_SRC
+   4. 
+       #+BEGIN_SRC processing :noweb yes :exports code
+       <<hiiren-painallukset-oskilloiva-ympyra>>
+       #+END_SRC
+   5. 
+       #+BEGIN_SRC processing :noweb yes :exports code
+       <<hiiren-painallukset-maalitippa>>
+       #+END_SRC
+   6. 
+       #+BEGIN_SRC processing :noweb yes :exports code
+       <<hiiren-painallukset-aaltoliike>>
+       #+END_SRC
+   
+   #+INCLUDE: hiiren-painallukset-ympyran-ohjaus.org
+   #+INCLUDE: hiiren-painallukset-varin-valinta.org
+   #+INCLUDE: hiiren-painallukset-x-koordinaatti.org
+   #+INCLUDE: hiiren-painallukset-oskilloiva-ympyra.org
+   #+INCLUDE: hiiren-painallukset-murtoviiva.org
+   #+INCLUDE: hiiren-painallukset-ristikko.org
+   #+INCLUDE: hiiren-painallukset-maalitippa.org
+   #+INCLUDE: hiiren-painallukset-aaltoliike.org
+   

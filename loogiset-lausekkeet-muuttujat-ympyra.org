@@ -1,0 +1,57 @@
+#+NAME: loogiset-lausekkeet-muuttujat-ympyra
+#+BEGIN_SRC processing :exports none
+  boolean liikkeessa; // onko ympyrä lähetetty matkaan
+  float x, y; // keskipisteen koordinaatit
+  float xMuutos, yMuutos; // miten koordinaatit muuttuvat askeleella
+
+  void setup ()
+  {
+    size (400, 400);
+    colorMode (HSB, 100);
+    liikkeessa = false;
+    x = width / 2.0;
+    y = height / 2.0;
+  }
+
+  void draw ()
+  {
+    background (0);
+
+    // päivitetään koordinaatit, jos ympyrä liikkeellä
+    if (liikkeessa)
+    {
+      x = x + xMuutos;
+      y = y + yMuutos;
+
+      // pysäytetään liike ja siirretään ympyrä keskelle, jos mennään
+      // ikkunan ulkopuolelle
+      if (x < 0 || x > width || y < 0 || y > height)
+      {
+        liikkeessa = false;
+        x = width / 2.0;
+        y = height / 2.0;
+      }
+    }
+
+    final float HALKAISIJA = 20;
+    ellipse (x, y, HALKAISIJA, HALKAISIJA);
+  }
+
+  void mousePressed ()
+  {
+    // laitetaan ympyrä liikkeelle, mikäli se ei ole jo
+    if (!liikkeessa)
+    {
+      liikkeessa = true;
+      if (mouseX > width / 2.0)
+        xMuutos = 1;
+      else 
+        xMuutos = -1;
+
+      if (mouseY > height / 2.0)
+        yMuutos = 1;
+      else
+        yMuutos = -1;
+    }
+  }
+#+END_SRC

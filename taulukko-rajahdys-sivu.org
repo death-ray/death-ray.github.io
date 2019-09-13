@@ -1,0 +1,7 @@
+#+INCLUDE: ohjelmointi-animaatiosivun-yhteiset-asetukset.org
+
+#+BEGIN_SRC processing :noweb yes
+<<taulukko-rajahdys>>
+#+END_SRC
+
+#+INCLUDE: taulukko-rajahdys.org
