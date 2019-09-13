@@ -1,0 +1,788 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2019-09-13 Fri 23:09 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Reima" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="additional stylesheet" type="text/css" href="ohjelmointi.css" />
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="content">
+<div id="outline-container-org5626625" class="outline-2">
+<h2 id="org5626625">Piirtäminen</h2>
+<div class="outline-text-2" id="text-org5626625">
+</div>
+<div id="outline-container-orgefdd2dd" class="outline-3">
+<h3 id="orgefdd2dd">Piirtoikkunan pisteen koordinaatit</h3>
+<div class="outline-text-3" id="text-orgefdd2dd">
+<p>
+p5.js-ohjelmissa piirretään kuvioita ja animaatioita
+piirtoikkunaan, jota kielessä kutsutaan nimella <i>canvas</i>.
+</p>
+
+<p>
+Piirtoikkuna voi olla esimerkiksi selaimen ikkuna tai sen osa.
+</p>
+
+<p>
+ Piirtoikkunan eri kohtiin eli <i>pikseleihin</i>
+ viitataan \(x\)- ja \(y\)-koordinaateilla. Esimerkiksi pisteen
+ \((70, 40)\) \(x\)-koordinaatti on 70 ja
+ \(y\)-koordinaatti 40. Toisin kuin matematiikassa, piirtoikkunassa
+ piste \((0, 0)\) on <i>vasemmassa yläkulmassa</i> ja \(y\)-koordinaatin
+ arvot kasvavat <i>alaspäin</i>. Alla oleva kuva esittää piirtoikkunaa,
+ jonka leveys on 600 ja korkeus 400. Kuvaan on piirretty myös
+kaikkien ikkunan kulmapisteiden koordinaatit sekä pisteiden \((70,
+   40)\) ja \((220, 130)\) kohdat.
+</p>
+
+
+<div class="org-src-container">
+<pre class="src src-asymptote" id="org166c736">usepackage ("inputenc", "utf8");
+defaultpen (fontsize (14));
+int LEVEYS = 600;
+int KORKEUS = 400;
+size (LEVEYS, KORKEUS);
+filldraw (xscale (LEVEYS) * yscale (KORKEUS) * unitsquare, lightgray);
+// muunnos Processing-koordinaatistosta perinteiseen koordinaatistoon
+transform T = shift ((0, 400)) * yscale (-1);
+real s = -.05 * LEVEYS; // akselien translaatio pois ikkunan reunalta
+draw ("$x$", T * shift ((0, s)) * ((0, 0) -- (LEVEYS, 0)), LeftSide, EndArrow);
+draw ("$y$", T * shift ((2*s, 0)) * ((0, 0) -- (0, KORKEUS)), EndArrow);
+
+pair A = (70, 40);
+pair B = (220, 130);
+
+for (pair P : new pair[] {A, B})
+  dot ((string) P, T * P, NE);
+for (int x : new int[] {0, LEVEYS})
+  for (int y : new int[] {0, KORKEUS})
+    {
+      pair P = (x, y);
+      dot ((string) P, T * P, (x == 0 ? W : E));
+    }
+</pre>
+</div>
+
+<p>
+Pistettä \((0, 0)\) kutsutaan piirtokoordinaatiston <i>origoksi</i>.
+</p>
+
+<p>
+600 pikseliä leveä ja 400 pikseliä korkea piirtoikkuna luodaan käskyllä <code>createCanvas (600, 400);</code>.
+</p>
+
+<p>
+Seuraava ohjelmakoodi luo piirtoikkunan.
+</p>
+<div class="org-src-container">
+<pre class="src src-processing">function setup() {
+    createCanvas(600, 400);
+}
+</pre>
+</div>
+
+<p>
+Ensimmäisen rivin <code>function setup()</code> kertoo tietokoneelle,
+että seuraavien aaltosulkeiden <code>{}</code> sisällä olevat käskyt suoritetaan
+yhden kerran, kun ohjelma käynnistetään. p5.js-ohjelmassa tulee aina olla
+tämänlainen <code>setup()</code> -niminen <i>funktio</i>.
+</p>
+
+<p>
+Jos piirtoikkunan korkeudeksi haluaisikin 500 pikseliä, muutettaisiin toiseksi
+riviksi <code>createCanvas (600, 500);</code>
+</p>
+
+<p>
+Piirtämiseen liittyvät käskyt laitetaan p5.js-ohjelmissa funktioon nimeltä
+<code>draw()</code>. Kaikki piirtämiseen käytettävät käskyt kirjoitetaan samalla
+tavalla aaltosulkeiden <code>{}</code> sisälle.
+</p>
+
+<p>
+Eräs p5.js-ohjelmien peruskuvioista on suorakulmio (englanniksi
+<i>rectangle</i>). Seuraavassa esimerkissä piirretään suorakulmio
+ikkunaan, jonka koko on \(600\times 400\) pikseliä. Piirtoikkuna on
+väriltään harmaa, ja piirretyssä valkoisessa suorakulmiossa on
+musta reunus.
+</p>
+<div class="org-src-container">
+<pre class="src src-processing" id="org0e7a0fe">function setup() {
+  size(600, 400);
+  rect(70, 40, 150, 90);
+}
+
+function draw() {
+  rect(70, 40, 150, 90);
+}
+
+</pre>
+</div>
+
+<p>
+Lauseke <code>size(600, 400);</code> avaa piirtoikkunan, jonka leveys on 600
+pikseliä ja korkeus 400 pikseliä. Lauseke <code>rect (70, 40, 150, 90);</code>
+piirtää suorakaiteen, jonka vasen yläkulma on kohdassa \((70, 40)\)
+ja jonka leveys on 150 ja korkeus 90. Koska suorakaiteen yläkulman
+\(x\)-koordinaatin ja leveyden summa on \[ 70 + 150 = 220, \] ja
+yläkulman \(y\)-koordinaatin ja korkeuden summa on \[ 40 + 90 =
+   130, \] suorakaiteen oikea alakulma on samassa kohdassa kuin yllä
+olevaan kuvaan piirretty piste \((220, 130)\).
+</p>
+
+<p>
+Tarkalleen ottaen pikselit ovat pieniä neliöitä, mikä vaikuttaa
+hieman oikean alakulman tarkkoihin koordinaatteihin. Tähän palataan
+kappaleessa <a href="sisakkaiset-silmukat.html">sisäkkäiset silmukat</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-org539e295" class="outline-3">
+<h3 id="org539e295">Ohjelmakoodin muoto</h3>
+<div class="outline-text-3" id="text-org539e295">
+<p>
+Tietokoneohjelma koostuu tyypillisesti <i>ohjelmariveistä</i>.
+p5.js-ohjelma on
+hyvin tarkka monista ohjelmarivin yksityiskohdista. Jotkut asiat
+ohjelmoija voi itse päättää.
+</p>
+
+<p>
+Edellä olevasta ohjelmasta voidaan jättää pois kaikki tyhjä tila
+eli välilyönnit, ja ohjelma toimii silti samalla
+tavalla. Välilyöntien käyttäminen on siis tyylikysymys. Myös tyhjiä
+rivejä ja rivinvaihtoja voidaan lisätä ohjelmaan huoletta.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-processing">function setup() {
+     size(600,
+     400);
+}
+
+function draw() {
+  rect(70, 40, 150, 90);
+}
+</pre>
+</div>
+
+<p>
+Monet muutokset johtavat siihen, että ohjelma ei joko toimi tai
+lopputulos muuttuu. Ennen kaikkea
+</p>
+<ul class="org-ul">
+<li>suoritettavan komennon lopussa täytyy olla puolipiste eli <code>;</code></li>
+<li>sanat <code>size</code> ja <code>rect</code> täytyy kirjoittaa pienillä kirjaimilla</li>
+<li>sulkujen <code>()</code> täytyy olla tavalliset sulut, ei esimerkiksi
+aaltosulut <code>{}</code> tai hakasulut <code>[]</code></li>
+<li>sulkujen sisällä olevien lukujen täytyy olla eroteltuina
+toisistaan pilkuilla</li>
+<li>p5.js-ohjelmassa komennon <code>size()</code> täytyy olla <code>setup()</code> -funktion
+ensimmäinen rivi.</li>
+</ul>
+
+<p>
+Kokeile tehdä muutoksia ohjelmaan ja katso, mitä tapahtuu kun yrität
+suorittaa ohjelman.
+</p>
+</div>
+</div>
+<div id="outline-container-orgd265951" class="outline-3">
+<h3 id="orgd265951">Muita kuvioita</h3>
+<div class="outline-text-3" id="text-orgd265951">
+<p>
+Suorakulmion piirtämiseen käytetään yllä <i>funktiota</i>
+<code>rect()</code>. Funktioiden nimiin viitataan usein laittamalla sulut
+nimen perään, jotta tiedetään kyseeessä olevan nimenomaan
+funktio. Tällöin sulkujen sisältö jätetään yksinkertaisuuden vuoksi
+monesti tyhjäksi.
+</p>
+
+<p>
+Funktio <code>rect()</code> piirtää suorakulmion, jonka sivut ovat
+piirtoikkunan sivujen suuntaiset. Muunlaisia nelikulmioita voidaan
+piirtää funktiolla <code>quad()</code>, jonka nimi tulee englannin kielen
+nelikulmiota tarkoittavasta sanasta <i>quadrilateral</i>. Tällöin
+sulkujen sisään laitetaan kaikkien neljän pisteen koordinaatit
+järjestyksessä joko myötä- tai vastapäivään kuviota
+kiertäen. Seuraavassa esimerkissä piirretään nelikulmio, jonka
+kärkipisteet ovat myötäpäivään kiertäen \((70, 40)\), \((220, 40)\),
+\((220, 130)\) sekä \((70, 130)\). Lopputuloksena saadaan
+samankaltainen suorakulmio kuin edellisessä esimerkissä.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-processing">function setup() {
+  size(600, 400);
+}
+
+function draw() {
+  quad(70, 40, 220, 40, 220, 130, 70, 130);
+}
+</pre>
+</div>
+
+<p>
+Kolmioita voidaan piirtää vastaavalla funktiolla <code>triangle()</code> jolle
+annetaan kolmen kärkipisteen koordinaatit.
+</p>
+
+<p>
+Mikäli kuvioita piirretään useampia, seuraava piirretään edellisen
+päälle. Seuraavissa esimerkeissä vain piirtokomentojen järjestys on
+vaihdettu.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-processing">function setup() {
+   size (600, 400);
+   triangle (50, 50, 50, 350, 350, 350);
+   quad (50, 200, 200, 350, 350, 200, 200, 50);
+  }
+
+function draw() {
+   triangle (50, 50, 50, 350, 350, 350);
+   quad (50, 200, 200, 350, 350, 200, 200, 50);
+}
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-processing">function setup() {
+  size (600, 400);
+  quad (50, 200, 200, 350, 350, 200, 200, 50);
+  triangle (50, 50, 50, 350, 350, 350);
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orge0754cc" class="outline-3">
+<h3 id="orge0754cc">Kuvion suunnitteleminen</h3>
+<div class="outline-text-3" id="text-orge0754cc">
+<p>
+Kuvioiden kärkipisteiden koordinaatit kannattaa usein suunnitella
+kynällä ja paperilla ennen kuvan piirtämistä
+tietokoneella. Esimerkiksi yllä oleva kahden kuvion kuva
+suunniteltiin seuraavasti. Tavoitteena oli piirtää kuvan kaltainen
+kuvio, jossa on
+</p>
+<ul class="org-ul">
+<li>suorakulmainen tasakylkinen kolmio sekä</li>
+<li>neliö, jonka kaksi kärkipistettä ovat kolmion kylkien
+keskikohdissa.</li>
+</ul>
+<p>
+Kolmion yhdeksi pisteeksi valittiin \((50, 50)\) ja kylkien
+pituudeksi 300.
+</p>
+
+<p>
+Suunnittelu voidaan yleensä tehdä useammalla eri tavalla. Tässä
+tapauksessa kärkipisteet voidaan etsiä vaikkapa seuraavasti alla
+olevan kuvan mukaisesti.
+</p>
+<ol class="org-ol">
+<li>Piste \(A (50, 50)\) on annettu.</li>
+<li>Pisteellä \(B\) on sama \(x\)-koordinaatti kuin pisteellä \(A.\)
+Koska kolmion kyljen pituus on 300 ja \(y\)-akselin arvot
+kasvavat alaspäin, pisteen \(B\) \(y\)-koordinaatti on 300
+yksikköä suurempi kuin pisteen \(A\). Niinpä \(B(50, 350).\)</li>
+<li>Pisteillä \(B\) ja \(C\) on sama \(y\)-koordinaatti, mutta pisteen
+\(C\) \(x\)-koordinaatti on 300 suurempi. Täten \(C(350, 350).\)</li>
+<li>Piste \(D\) on pisteiden \(A\) ja \(B\) puolivälissä, joten \(D(50,
+      200).\) Vastaavasti \(E\) on pisteiden \(B\) ja \(C\) puolivälissä,
+jolloin \(E(200, 350).\)</li>
+<li>Koska \(DEFG\) on neliö, pisteellä \(F\) on sama \(x\)-koordinaatti
+kuin pisteellä \(C\) ja sama \(y\)-koordinaatti kuin pisteellä
+\(D,\) joten \(F(350, 200).\)</li>
+<li>Vastaavasti pisteellä \(G\) on on sama \(x\)-koordinaatti kuin
+pisteellä \(E\) ja sama \(y\)-koordinaatti kuin pisteellä \(A,\)
+joten \(G(200, 50).\)</li>
+</ol>
+
+<div class="org-src-container">
+<pre class="src src-asymptote">usepackage ("inputenc", "utf8");
+defaultpen (fontsize (14));
+int LEVEYS = 600;
+int KORKEUS = 400;
+size (LEVEYS, KORKEUS);
+filldraw (xscale (LEVEYS) * yscale (KORKEUS) * unitsquare, lightgray);
+// muunnos Processing-koordinaatistosta perinteiseen koordinaatistoon
+transform T = shift ((0, 400)) * yscale (-1);
+real s = -.05 * LEVEYS; // akselien translaatio pois ikkunan reunalta
+draw ("$x$", T * shift ((0, s)) * ((0, 0) -- (LEVEYS, 0)), LeftSide, EndArrow);
+draw ("$y$", T * shift ((2*s, 0)) * ((0, 0) -- (0, KORKEUS)), EndArrow);
+
+pair A = (50, 50);
+int s = 300; // sivun pituus
+pair B = shift ((0, s)) * A;
+pair C = shift ((s, 0)) * B;
+
+draw (T * (A -- B -- C -- cycle), dashed);
+pair D = midpoint (A -- B);
+pair Ep = midpoint (B -- C);
+pair F = (C.x, D.y);
+pair G = (Ep.x, A.y);
+draw (T * (D -- Ep -- F -- G -- cycle), dashed);
+pair[] points = {A, B, C, D, Ep, F, G};
+string[] labels = {"$A$", "$B$", "$C$", "$D$", "$E$", "$F$", "$G$"};
+for (int i = 0; i &lt; points.length; ++i)
+  {
+    pair P = points [i];
+    dot (labels [i] + (string) P, T * P, (P.y == A.x + s ? S : E));
+  }
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf5f0b6e" class="outline-3">
+<h3 id="orgf5f0b6e">Tehtävät</h3>
+<div class="outline-text-3" id="text-orgf5f0b6e">
+<ol class="org-ol">
+<li>Piirrä \(800\times 600\)-kokoiseen piirtoikkunaan
+a) nelikulmio, jonka vasen yläkulma on pisteessä \((160, 90)\) ja
+   jonka leveys on 200 ja korkeus 300
+b) kolmio, jonka kärkipisteet ovat \((110, 500)\), \((370, 420)\)
+   sekä \((480, 570)\)
+c) nelikulmio, jonka kärkipisteet ovat vastapäivään kiertäen
+   lueteltuina \((730, 50)\), \((450, 370)\), \((770, 530)\)
+   sekä \((610, 250)\).</li>
+<li>Piirrä seuraavanlaiset kuvat. Piirtoikkunan koko on \(200\times 200.\)
+a)</li>
+</ol>
+<div class="org-src-container">
+<pre class="src src-processing" id="orge0d81f2">size (200, 200);
+triangle (0, 100, 0, 200, 200, 0);
+</pre>
+</div>
+<p>
+b)
+</p>
+<div class="org-src-container">
+<pre class="src src-processing" id="org8fea931">size (200, 200);
+quad (0, 0, 200, 200, 200, 100, 100, 0);
+triangle (0, 100, 0, 200, 100, 200);
+</pre>
+</div>
+<p>
+c)
+</p>
+<div class="org-src-container">
+<pre class="src src-processing" id="org59841a0">size (200, 200);
+quad (0, 100, 100, 200, 200, 100, 100, 0);
+rect (50, 50, 100, 100);
+</pre>
+</div>
+<ol class="org-ol">
+<li>Piirrä haluamasi kokoiseen piirtoikkunaan valitsemasi kokoinen
+a) puolisuunnikas
+b) tasakylkinen kolmio, joka ei ole suorakulmainen
+c) suunnikas, joka ei ole suorakulmio.</li>
+<li>Piirrä seuraavat kuviot. Piirtoikkunan koko on \(300\times 200.\)
+a) Suorakulmio on piirtoikkunan keskellä, ja suorakulmion leveys
+   ja korkeus ovat puolet piirtoikkunan vastaavista mitoista.</li>
+</ol>
+<div class="org-src-container">
+<pre class="src src-processing" id="orgffc1b5a">size (300, 200);
+rect (75, 50, 150, 100);
+</pre>
+</div>
+<p>
+b) Ulomman suunnikkaan kaksi kärkipistettä jakavat piirtoikkunan
+   pidemmät sivut suhteessa \(1:2.\) Sisemmän suunnikkaan
+   kärkipisteet ovat ulomman suunnikkaan sivujen keskipisteitä.
+</p>
+<div class="org-src-container">
+<pre class="src src-processing" id="orgf6ea160">size (300, 200);
+quad (100, 0, 300, 100, 200, 200, 0, 100);
+quad (50, 50, 200, 50, 250, 150, 100, 150);
+</pre>
+</div>
+<ol class="org-ol">
+<li><p>
+Piirrä haluamasi näköiset ja kokoiset versiot isoista kirjaimista
+T, X, A, B sekä Q. Alla esimerkkinä yksi versio
+A-kirjaimesta.
+</p>
+<div class="org-src-container">
+<pre class="src src-processing">size (300, 200);
+rect (75, 100, 150, 30);
+quad (250, 200, 300, 200, 175, 0, 125, 0);
+quad (0, 200, 50, 200, 175, 0, 125, 0);
+</pre>
+</div></li>
+<li>Tämän tehtävän voit tehdä vain, mikäli olet jo opiskellut
+<i>Pythagoraan lauseen</i>. Piirrä tasasivuinen kolmio, jonka sivun
+pituus on 120. Piirrä kolmio \(300\times 300\)-kokoisen
+piirtoikkunan keskelle siten, että kolmion sivuille jää yhtä
+paljon tilaa ja myös ylä- ja alapuolelle jää yhtä paljon
+tilaa. Voit pyöristää laskujesi tuloksina saamasi koordinaatit
+kokonaisluvuiksi.</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orga675b04" class="outline-3">
+<h3 id="orga675b04">Ratkaisuja</h3>
+<div class="outline-text-3" id="text-orga675b04">
+<p>
+Saman asian tekevä tietokoneohjelma voidaan kirjoittaa monella eri
+tavalla. Nämä ratkaisut ovat vain esimerkkejä.
+</p>
+<ol class="org-ol">
+<li><div class="org-src-container">
+<pre class="src src-processing">size (800, 600);
+rect (160, 90, 200, 300);
+triangle (110, 500, 370, 420, 480, 570);
+quad (730, 50, 450, 370, 770, 530, 610, 250);
+</pre>
+</div></li>
+<li>a)</li>
+</ol>
+<div class="org-src-container">
+<pre class="src src-processing">size (200, 200);
+triangle (0, 100, 0, 200, 200, 0);
+</pre>
+</div>
+<p>
+b)
+</p>
+<div class="org-src-container">
+<pre class="src src-processing">size (200, 200);
+quad (0, 0, 200, 200, 200, 100, 100, 0);
+triangle (0, 100, 0, 200, 100, 200);
+</pre>
+</div>
+<p>
+c)
+</p>
+<div class="org-src-container">
+<pre class="src src-processing">size (200, 200);
+quad (0, 100, 100, 200, 200, 100, 100, 0);
+rect (50, 50, 100, 100);
+</pre>
+</div>
+<ol class="org-ol">
+<li>Esimerkkejä mahdollisista ratkaisuista.
+a)</li>
+</ol>
+<div class="org-src-container">
+<pre class="src src-processing">size (300, 200);
+quad (50, 50, 130, 50, 190, 150, 10, 150);
+</pre>
+</div>
+<p>
+b)
+</p>
+<div class="org-src-container">
+<pre class="src src-processing">size (300, 200);
+triangle (50, 150, 250, 150, 150, 100);
+</pre>
+</div>
+<p>
+c)
+</p>
+<div class="org-src-container">
+<pre class="src src-processing">size (300, 200);
+quad (50, 150, 200, 150, 250, 50, 100, 50);
+</pre>
+</div>
+<ol class="org-ol">
+<li><p>
+a)
+</p>
+<div class="org-src-container">
+<pre class="src src-processing">size (300, 200);
+rect (75, 50, 150, 100);
+</pre>
+</div>
+<p>
+b)
+</p>
+<div class="org-src-container">
+<pre class="src src-processing">size (300, 200);
+quad (100, 0, 300, 100, 200, 200, 0, 100);
+quad (50, 50, 200, 50, 250, 150, 100, 150);
+</pre>
+</div></li>
+<li>Useita eri ratkaisuja.</li>
+<li><p>
+Tasasivuisen kolmion korkeudeksi saadaan Pythagoraan lauseella
+noin 104.
+</p>
+<div class="org-src-container">
+<pre class="src src-processing">size (300, 300);
+triangle (90, 202, 210, 202, 150, 98);
+</pre>
+</div></li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Reima</p>
+<p class="date">Created: 2019-09-13 Fri 23:09</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
